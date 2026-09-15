@@ -275,3 +275,4 @@ class NGramLanguageModel:
         # Sort descending by probability, break ties alphabetically
         scored.sort(key=lambda item: (-item[1], item[0]))
         return scored[:top_k]
+

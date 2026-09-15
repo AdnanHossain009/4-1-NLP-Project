@@ -19,8 +19,14 @@ from sklearn.model_selection import train_test_split
 VALID_CATEGORIES = {"business", "entertainment", "politics", "sport", "tech"}
 
 
+_NLTK_RESOURCES_CHECKED = False
+
+
 def ensure_nltk_resources():
-    """Ensure all required NLTK tokenizers and lexicons are available."""
+    """Ensure all required NLTK tokenizers and lexicons are available with clear messages."""
+    global _NLTK_RESOURCES_CHECKED
+    if _NLTK_RESOURCES_CHECKED:
+        return
     resources = [
         ("tokenizers/punkt", "punkt"),
         ("tokenizers/punkt_tab", "punkt_tab"),
@@ -32,7 +38,9 @@ def ensure_nltk_resources():
         try:
             nltk.data.find(path)
         except LookupError:
+            print(f"[NLTK Info] Resource '{pkg}' not found locally. Downloading '{pkg}'...")
             nltk.download(pkg, quiet=True)
+    _NLTK_RESOURCES_CHECKED = True
 
 
 class TextPreprocessor:
@@ -215,3 +223,4 @@ def stratified_train_test_split(
         random_state=random_state,
     )
     return train_df.reset_index(drop=True), test_df.reset_index(drop=True)
+

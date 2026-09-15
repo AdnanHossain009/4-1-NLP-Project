@@ -151,3 +151,44 @@ def test_higher_order_ngrams():
         preds = model.predict_next_words(context, top_k=2)
         assert len(preds) > 0
         assert preds[0][0] in model.vocab
+
+
+def test_ngram_on_bbc_train_split():
+    """Verify N-gram model training and prediction on real preprocessed BBC train split."""
+    import os
+    from src.preprocessing import TextPreprocessor, load_dataset, stratified_train_test_split
+
+    data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "bbc_news.csv")
+    if not os.path.exists(data_path):
+        pytest.skip("BBC News dataset not found at data/bbc_news.csv")
+
+    df = load_dataset(data_path)
+    train_df, test_df = stratified_train_test_split(df, test_size=0.2, random_state=42)
+
+    preprocessor = TextPreprocessor()
+    # Train on first 50 preprocessed training articles
+    train_corpus = [
+        preprocessor.preprocess(text, return_tokens=True)
+        for text in train_df["text"].iloc[:50]
+    ]
+
+    model = NGramLanguageModel(n=2, laplace_smoothing=True)
+    model.train(train_corpus)
+
+    assert model.vocab_size > 100
+    assert model.total_tokens > 500
+
+    # Test next-word predictions on a common vocabulary word
+    common_word = train_corpus[0][0]
+    predictions = model.predict_next_words((common_word,), top_k=5)
+    assert len(predictions) == 5
+    for word, prob in predictions:
+        assert 0.0 <= prob <= 1.0
+
+    # Sequence probability and perplexity on test split sample
+    test_sample = preprocessor.preprocess(test_df["text"].iloc[0], return_tokens=True)[:10]
+    perp = model.calculate_perplexity(test_sample)
+    assert perp > 0.0
+    assert not math.isnan(perp)
+
+
