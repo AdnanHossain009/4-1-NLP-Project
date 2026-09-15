@@ -6,6 +6,8 @@ This package provides foundational, formula-based NLP modules:
 - Generalized N-Gram Language Modeling (MLE, Laplace smoothing, Next-word prediction)
 - Multinomial Naive Bayes Classifier (from scratch using pure NumPy)
 - Custom Word2Vec Skip-Gram Architecture (PyTorch from scratch)
+- Offline Pretrained GloVe Embeddings & Document Vector Aggregation
+- One-vs-Rest Logistic Regression (from scratch using pure NumPy)
 """
 
 from src.preprocessing import (
@@ -25,6 +27,16 @@ try:
 except ImportError:
     CustomWord2Vec, SkipGramModel = None, None
 
+try:
+    from src.embeddings import GloVeEmbeddings, compute_training_idf, aggregate_document_mean, aggregate_document_tfidf
+except ImportError:
+    GloVeEmbeddings = None
+
+try:
+    from src.logistic_regression import OneVsRestLogisticRegression, BinaryLogisticRegression, sigmoid
+except ImportError:
+    OneVsRestLogisticRegression = None
+
 __all__ = [
     "TextPreprocessor",
     "load_dataset",
@@ -33,4 +45,8 @@ __all__ = [
     "MultinomialNaiveBayes",
     "CustomWord2Vec",
     "SkipGramModel",
+    "GloVeEmbeddings",
+    "OneVsRestLogisticRegression",
+    "BinaryLogisticRegression",
+    "sigmoid",
 ]
