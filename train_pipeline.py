@@ -130,6 +130,12 @@ def run_full_training_pipeline(
         sample_str = ", ".join([f"{w} ({p:.3f})" for w, p in sample_preds])
         print(f"  Order n={n}: Vocab={lm.vocab_size:,} | Next after 'government': {sample_str}")
 
+    ngram_path = os.path.join(models_dir, "ngram_models.pkl")
+    import pickle
+    with open(ngram_path, "wb") as f:
+        pickle.dump(ngram_models, f)
+    print(f"  Saved pre-trained N-Gram language models -> {ngram_path}")
+
     # -----------------------------------------------------------------
     # Step 5: Multinomial Naive Bayes Classifier from Scratch
     # -----------------------------------------------------------------
@@ -190,6 +196,11 @@ def run_full_training_pipeline(
     print("\n[Step 8/12] Generating Fixed-Length Document Vectors (Mean & TF-IDF)...")
     idf_weights, default_idf = compute_training_idf(train_tokens, smooth=True)
     print(f"  Computed frozen IDF table for {len(idf_weights):,} training words.")
+
+    idf_path = os.path.join(models_dir, "idf_weights.json")
+    with open(idf_path, "w", encoding="utf-8") as f:
+        json.dump({"idf_weights": idf_weights, "default_idf": float(default_idf)}, f)
+    print(f"  Saved frozen IDF weights table -> {idf_path}")
 
     # -----------------------------------------------------------------
     # Step 9: One-vs-Rest Logistic Regression from Scratch

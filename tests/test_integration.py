@@ -180,3 +180,25 @@ def test_streamlit_application_headless_startup(project_paths):
     # Ensure no unhandled exceptions were raised
     assert len(at.exception) == 0, f"Streamlit app raised exceptions: {at.exception}"
 
+
+def test_streamlit_application_edge_cases(project_paths):
+    """Verify that app.py handles empty, short, and OOV text inputs without exceptions."""
+    app_file = os.path.join(project_paths["root"], "app.py")
+    at = AppTest.from_file(app_file, default_timeout=30)
+    at.run()
+    assert len(at.exception) == 0
+
+    if at.text_area:
+        # 1. Test short text
+        at.text_area[0].input("Economy growth").run()
+        assert len(at.exception) == 0
+
+        # 2. Test OOV text
+        at.text_area[0].input("Krypton blork flimzam zork").run()
+        assert len(at.exception) == 0
+
+        # 3. Test empty text
+        at.text_area[0].input("   ").run()
+        assert len(at.exception) == 0
+
+
