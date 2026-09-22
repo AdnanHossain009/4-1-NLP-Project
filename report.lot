@@ -1,0 +1,10 @@
+\contentsline {table}{\numberline {1}{\ignorespaces Comparative sampling probabilities across noise distributions for terms of varying frequency.}}{5}{table.caption.1}%
+\contentsline {table}{\numberline {2}{\ignorespaces Dataset distribution across categories and experimental partitions.}}{7}{table.caption.2}%
+\contentsline {table}{\numberline {3}{\ignorespaces Systematic hyperparameter configuration across all experimental modules.}}{10}{table.caption.8}%
+\contentsline {table}{\numberline {4}{\ignorespaces Benchmark performance comparison across all seven traditional NLP pipelines on the held-out test split ($N=445$).}}{11}{table.caption.9}%
+\contentsline {table}{\numberline {5}{\ignorespaces Per-class F1-score performance comparison across key foundational architectures on the held-out test split ($N=445$).}}{11}{table.caption.10}%
+\contentsline {table}{\numberline {6}{\ignorespaces Detailed class-wise performance breakdown for Pipeline G ($\text {TF-IDF}$ Unigram + Bigram $\to $ Logistic Regression).}}{12}{table.caption.11}%
+\contentsline {table}{\numberline {7}{\ignorespaces Confusion matrix for Pipeline G ($\text {TF-IDF}$ Unigram + Bigram + Logistic Regression) on held-out test split ($N=445$).}}{12}{table.caption.12}%
+\contentsline {table}{\numberline {8}{\ignorespaces Confusion matrix for Pipeline C (Custom Word2Vec + $\text {TF-IDF}$ Centroid Pooling) on held-out test split ($N=445$).}}{13}{table.caption.13}%
+\contentsline {table}{\numberline {9}{\ignorespaces Computational complexity, model parameter footprint, training duration, and per-document inference latency across pipelines.}}{13}{table.caption.14}%
+\contentsline {table}{\numberline {10}{\ignorespaces Empirical probability distributions on the diagnostic failure case vs. the contextualized match report.}}{14}{table.caption.15}%
