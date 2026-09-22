@@ -1,0 +1,512 @@
+{
+  "business": [
+    {
+      "term": "bn",
+      "weight": 2.6795
+    },
+    {
+      "term": "bank",
+      "weight": 1.9805
+    },
+    {
+      "term": "company",
+      "weight": 1.7464
+    },
+    {
+      "term": "market",
+      "weight": 1.6293
+    },
+    {
+      "term": "firm",
+      "weight": 1.6081
+    },
+    {
+      "term": "growth",
+      "weight": 1.4934
+    },
+    {
+      "term": "economy",
+      "weight": 1.4874
+    },
+    {
+      "term": "price",
+      "weight": 1.4822
+    },
+    {
+      "term": "rise",
+      "weight": 1.4602
+    },
+    {
+      "term": "oil",
+      "weight": 1.3694
+    },
+    {
+      "term": "share",
+      "weight": 1.3017
+    },
+    {
+      "term": "sale",
+      "weight": 1.2401
+    },
+    {
+      "term": "economic",
+      "weight": 1.2349
+    },
+    {
+      "term": "euro",
+      "weight": 1.1583
+    },
+    {
+      "term": "u",
+      "weight": 1.1534
+    },
+    {
+      "term": "profit",
+      "weight": 1.1449
+    },
+    {
+      "term": "trade",
+      "weight": 1.1099
+    },
+    {
+      "term": "stock",
+      "weight": 1.0026
+    },
+    {
+      "term": "analyst",
+      "weight": 1.0015
+    },
+    {
+      "term": "dollar",
+      "weight": 0.9842
+    },
+    {
+      "term": "airline",
+      "weight": 0.9111
+    },
+    {
+      "term": "business",
+      "weight": 0.9096
+    },
+    {
+      "term": "yukos",
+      "weight": 0.8992
+    },
+    {
+      "term": "china",
+      "weight": 0.8778
+    },
+    {
+      "term": "investment",
+      "weight": 0.8541
+    }
+  ],
+  "entertainment": [
+    {
+      "term": "film",
+      "weight": 4.0025
+    },
+    {
+      "term": "star",
+      "weight": 2.0524
+    },
+    {
+      "term": "award",
+      "weight": 1.8961
+    },
+    {
+      "term": "show",
+      "weight": 1.5446
+    },
+    {
+      "term": "music",
+      "weight": 1.4106
+    },
+    {
+      "term": "album",
+      "weight": 1.3991
+    },
+    {
+      "term": "best",
+      "weight": 1.3102
+    },
+    {
+      "term": "band",
+      "weight": 1.2622
+    },
+    {
+      "term": "chart",
+      "weight": 1.2504
+    },
+    {
+      "term": "actor",
+      "weight": 1.2414
+    },
+    {
+      "term": "festival",
+      "weight": 1.1593
+    },
+    {
+      "term": "oscar",
+      "weight": 1.1046
+    },
+    {
+      "term": "singer",
+      "weight": 1.1038
+    },
+    {
+      "term": "song",
+      "weight": 0.9698
+    },
+    {
+      "term": "tv",
+      "weight": 0.9329
+    },
+    {
+      "term": "actress",
+      "weight": 0.8545
+    },
+    {
+      "term": "include",
+      "weight": 0.854
+    },
+    {
+      "term": "musical",
+      "weight": 0.837
+    },
+    {
+      "term": "comedy",
+      "weight": 0.8292
+    },
+    {
+      "term": "series",
+      "weight": 0.784
+    },
+    {
+      "term": "book",
+      "weight": 0.7191
+    },
+    {
+      "term": "theatre",
+      "weight": 0.6976
+    },
+    {
+      "term": "nomination",
+      "weight": 0.6823
+    },
+    {
+      "term": "rock",
+      "weight": 0.6686
+    },
+    {
+      "term": "producer",
+      "weight": 0.6664
+    }
+  ],
+  "politics": [
+    {
+      "term": "mr",
+      "weight": 2.6703
+    },
+    {
+      "term": "labour",
+      "weight": 2.2607
+    },
+    {
+      "term": "party",
+      "weight": 2.1187
+    },
+    {
+      "term": "election",
+      "weight": 2.0129
+    },
+    {
+      "term": "blair",
+      "weight": 1.7696
+    },
+    {
+      "term": "tory",
+      "weight": 1.6712
+    },
+    {
+      "term": "minister",
+      "weight": 1.6586
+    },
+    {
+      "term": "government",
+      "weight": 1.5672
+    },
+    {
+      "term": "say",
+      "weight": 1.3989
+    },
+    {
+      "term": "lord",
+      "weight": 1.3944
+    },
+    {
+      "term": "mr_blair",
+      "weight": 1.1694
+    },
+    {
+      "term": "brown",
+      "weight": 1.1679
+    },
+    {
+      "term": "mp",
+      "weight": 1.1013
+    },
+    {
+      "term": "would",
+      "weight": 1.0893
+    },
+    {
+      "term": "secretary",
+      "weight": 1.0786
+    },
+    {
+      "term": "howard",
+      "weight": 1.019
+    },
+    {
+      "term": "mr_brown",
+      "weight": 0.988
+    },
+    {
+      "term": "chancellor",
+      "weight": 0.9417
+    },
+    {
+      "term": "council",
+      "weight": 0.9189
+    },
+    {
+      "term": "prime_minister",
+      "weight": 0.9087
+    },
+    {
+      "term": "plan",
+      "weight": 0.9041
+    },
+    {
+      "term": "prime",
+      "weight": 0.9
+    },
+    {
+      "term": "conservative",
+      "weight": 0.8947
+    },
+    {
+      "term": "vote",
+      "weight": 0.8899
+    },
+    {
+      "term": "police",
+      "weight": 0.8582
+    }
+  ],
+  "sport": [
+    {
+      "term": "win",
+      "weight": 1.7037
+    },
+    {
+      "term": "match",
+      "weight": 1.5833
+    },
+    {
+      "term": "player",
+      "weight": 1.5529
+    },
+    {
+      "term": "play",
+      "weight": 1.4799
+    },
+    {
+      "term": "england",
+      "weight": 1.3974
+    },
+    {
+      "term": "champion",
+      "weight": 1.3891
+    },
+    {
+      "term": "club",
+      "weight": 1.3269
+    },
+    {
+      "term": "injury",
+      "weight": 1.3073
+    },
+    {
+      "term": "coach",
+      "weight": 1.3054
+    },
+    {
+      "term": "team",
+      "weight": 1.2844
+    },
+    {
+      "term": "cup",
+      "weight": 1.2687
+    },
+    {
+      "term": "final",
+      "weight": 1.1435
+    },
+    {
+      "term": "game",
+      "weight": 1.1343
+    },
+    {
+      "term": "season",
+      "weight": 1.1187
+    },
+    {
+      "term": "chelsea",
+      "weight": 1.0875
+    },
+    {
+      "term": "side",
+      "weight": 1.055
+    },
+    {
+      "term": "rugby",
+      "weight": 1.009
+    },
+    {
+      "term": "goal",
+      "weight": 0.9823
+    },
+    {
+      "term": "wale",
+      "weight": 0.9614
+    },
+    {
+      "term": "olympic",
+      "weight": 0.9125
+    },
+    {
+      "term": "ireland",
+      "weight": 0.8959
+    },
+    {
+      "term": "beat",
+      "weight": 0.8636
+    },
+    {
+      "term": "league",
+      "weight": 0.8515
+    },
+    {
+      "term": "victory",
+      "weight": 0.8477
+    },
+    {
+      "term": "championship",
+      "weight": 0.8469
+    }
+  ],
+  "tech": [
+    {
+      "term": "technology",
+      "weight": 1.9153
+    },
+    {
+      "term": "mobile",
+      "weight": 1.8744
+    },
+    {
+      "term": "game",
+      "weight": 1.8625
+    },
+    {
+      "term": "use",
+      "weight": 1.7942
+    },
+    {
+      "term": "computer",
+      "weight": 1.7539
+    },
+    {
+      "term": "user",
+      "weight": 1.7164
+    },
+    {
+      "term": "phone",
+      "weight": 1.6692
+    },
+    {
+      "term": "software",
+      "weight": 1.5877
+    },
+    {
+      "term": "service",
+      "weight": 1.368
+    },
+    {
+      "term": "people",
+      "weight": 1.3569
+    },
+    {
+      "term": "digital",
+      "weight": 1.3124
+    },
+    {
+      "term": "net",
+      "weight": 1.2986
+    },
+    {
+      "term": "network",
+      "weight": 1.1813
+    },
+    {
+      "term": "pc",
+      "weight": 1.1647
+    },
+    {
+      "term": "microsoft",
+      "weight": 1.1574
+    },
+    {
+      "term": "online",
+      "weight": 1.1447
+    },
+    {
+      "term": "virus",
+      "weight": 1.1407
+    },
+    {
+      "term": "broadband",
+      "weight": 1.0899
+    },
+    {
+      "term": "program",
+      "weight": 1.0858
+    },
+    {
+      "term": "gadget",
+      "weight": 1.0322
+    },
+    {
+      "term": "mail",
+      "weight": 1.0235
+    },
+    {
+      "term": "internet",
+      "weight": 1.0232
+    },
+    {
+      "term": "device",
+      "weight": 1.0131
+    },
+    {
+      "term": "system",
+      "weight": 0.9865
+    },
+    {
+      "term": "blog",
+      "weight": 0.9843
+    }
+  ]
+}

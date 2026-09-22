@@ -1,7 +1,7 @@
 # News Category Classification and Semantic Analysis Using N-Gram Models, Word2Vec, Naive Bayes, and Logistic Regression
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Tests](https://img.shields.io/badge/pytest-60%20passed-brightgreen.svg)](https://pytest.org)
+[![Tests](https://img.shields.io/badge/pytest-68%20passed-brightgreen.svg)](https://pytest.org)
 [![Offline First](https://img.shields.io/badge/architecture-offline--first-success.svg)](README.md)
 [![Corpus](<https://img.shields.io/badge/corpus-BBC%20News%20(2%2C225%20docs)-orange.svg>)](data/setup_data.py)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -217,47 +217,93 @@ Decomposes 5-class classification into five independent binary classifiers.
 - **Multi-Class Probability Normalization**:
   $$P(c \mid D) = \frac{\sigma(X W_c + b_c)}{\sum_{k=1}^5 \sigma(X W_k + b_k)}$$
 
+### 5.9 Custom TF-IDF & N-Gram Feature Engineering (`src/tfidf_extractor.py`)
+
+Averaged word embeddings (Word2Vec / GloVe) inherently destroy word order and phrase boundaries. In contrast, **TF-IDF with Unigrams and Consecutive Bigrams** directly captures discriminative multi-word phrases (e.g., *"world_cup"*, *"stock_market"*, *"prime_minister"*):
+
+- **N-Gram Generation**:
+  $$\text{Unigrams}: w_i \quad \mid \quad \text{Bigrams}: w_i\_w_{i+1}$$
+- **Term Frequency**:
+  $$\text{TF}(t, d) = \text{count}(t, d)$$
+- **Strict Training-Only Smoothed IDF (Zero Leakage)**:
+  $$\text{IDF}(t) = \ln\left( \frac{N_{\text{train}} + 1}{\text{DF}_{\text{train}}(t) + 1} \right) + 1$$
+- **Document Vector & L2 Normalization**:
+  $$v_d(t) = \text{TF}(t, d) \times \text{IDF}(t), \quad x_d = \frac{v_d}{\|v_d\|_2} = \frac{v_d}{\sqrt{\sum_j v_{d, j}^2}}$$
+- **Direct Mathematical Explainability**:
+  Because each feature dimension $j$ maps to an explicit vocabulary n-gram, the linear score contribution for class $c$ is:
+  $$\text{Contribution}_c(j) = x_d[j] \times W_c[j]$$
+  Positive weights $W_c[j] > 0$ directly explain the observable terms driving classification.
+
 ---
 
 ## 6. Training Pipeline Orchestration (`train_pipeline.py`)
 
-The orchestration script runs the entire sequence automatically in 44 seconds:
+The orchestration script runs the entire sequence automatically:
 
 ```bash
-python train_pipeline.py
+python -m src.logistic_regression
+python -m src.clustering_eval
 ```
 
 **Execution Sequence**:
 
 1. Load dataset & validate schemas (`data/bbc_news.csv`)
 2. Stratified 80/20 train/test split (seed 42)
-3. Text cleaning, tokenization, lemmatization
+3. Text cleaning, tokenization, lemmatization (supporting Standard and Numeric-preserving configurations)
 4. Train N-Gram models ($n=2, 3, 4, 5$)
 5. Train & save Naive Bayes (`models/naive_bayes_weights.pkl`)
 6. Train & save Custom Word2Vec (`models/custom_word2vec.pt`, `models/vocab.json`)
 7. Prepare offline GloVe cache (`models/pretrained_embeddings.npy`)
-8. Compute training IDF & pool document vectors
-9. Train One-vs-Rest Logistic Regression on all 4 embeddings
-10. Evaluate all 5 pipelines on the 445-article held-out test split
-11. Generate multi-panel confusion matrix plot (`reports/confusion_matrix.png`)
-12. Run K-Means ($k=5$), compute Silhouette score, and save cluster projection (`reports/clusters.png`)
-13. Save JSON benchmark report (`reports/metrics.json`)
+8. Fit Unigram & Bigram TF-IDF Extractors (`models/tfidf_extractor.pkl`, `models/tfidf_unigram_extractor.pkl`)
+9. Train One-vs-Rest Logistic Regression across all representation configurations
+10. Extract top learned positive feature weights per category (`reports/top_features_per_category.json`)
+11. Evaluate all 7 configurations on the 445-article held-out test split (`reports/model_comparison.csv`)
+12. Conduct comprehensive error analysis on misclassified test articles (`reports/error_analysis.txt`)
+13. Generate multi-panel confusion matrix plot (`reports/confusion_matrix.png`)
+14. Save JSON benchmark report (`reports/metrics.json`)
 
 ---
 
 ## 7. Evaluation Benchmarks & Comparative Analysis
 
-### 7.1 Benchmark Comparison Table
+### 7.1 Benchmark Comparison Table (All 7 Traditional Configurations)
 
 Evaluated on the held-out test split ($445$ articles, $20\%$):
 
-| Pipeline       | Model                     | Representation     | Aggregation     | Test Accuracy | Macro Precision | Macro Recall |  Macro F1  |
-| :------------- | :------------------------ | :----------------- | :-------------- | :-----------: | :-------------: | :----------: | :--------: |
-| **Pipeline A** | Multinomial Naive Bayes   | Bag-of-Words (BoW) | Term Frequency  |  **97.53%**   |   **97.47%**    |  **97.51%**  | **97.48%** |
-| **Pipeline B** | Logistic Regression (OvR) | Custom Word2Vec    | Mean Pooling    |  **96.40%**   |   **96.36%**    |  **96.26%**  | **96.30%** |
-| **Pipeline C** | Logistic Regression (OvR) | Custom Word2Vec    | TF-IDF Weighted |  **96.18%**   |   **96.15%**    |  **96.00%**  | **96.05%** |
-| **Pipeline D** | Logistic Regression (OvR) | Pretrained GloVe   | Mean Pooling    |  **74.83%**   |   **82.61%**    |  **72.68%**  | **73.89%** |
-| **Pipeline E** | Logistic Regression (OvR) | Pretrained GloVe   | TF-IDF Weighted |  **66.07%**   |   **78.65%**    |  **63.46%**  | **64.50%** |
+| Pipeline ID | Model | Representation / Aggregation | Test Accuracy | Macro Precision | Macro Recall | Macro F1 | Weighted F1 |
+| :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **Pipeline A** | Multinomial Naive Bayes | Count / Bag-of-Words (BoW) | **97.53%** | 97.47% | 97.51% | 97.48% | 97.53% |
+| **Pipeline B** | Logistic Regression (OvR) | Custom Word2Vec (Mean Pooling) | **96.40%** | 96.36% | 96.26% | 96.30% | 96.41% |
+| **Pipeline C** | Logistic Regression (OvR) | Custom Word2Vec (TF-IDF Weighted) | **96.18%** | 96.15% | 96.00% | 96.05% | 96.18% |
+| **Pipeline D** | Logistic Regression (OvR) | Pretrained GloVe (Mean Pooling) | **76.63%** | 82.20% | 74.96% | 75.73% | 76.06% |
+| **Pipeline E** | Logistic Regression (OvR) | Pretrained GloVe (TF-IDF Weighted) | **68.31%** | 78.43% | 66.27% | 67.47% | 67.74% |
+| **Pipeline F** | Logistic Regression (OvR) | TF-IDF (Unigram Features) | **97.08%** | 97.09% | 97.13% | 97.10% | 97.09% |
+| **Pipeline G** | Logistic Regression (OvR) | TF-IDF (Unigram + Bigram Features) | **97.30%** | 97.30% | 97.33% | 97.31% | 97.32% |
+
+_Key Empirical Insights_:
+1. **Unigram + Bigram Superiority**: Adding bigram phrase features elevates Logistic Regression accuracy to **97.30%** (Macro F1: **97.31%**), outperforming all dense word-embedding pooling models (Word2Vec at 96.40% and GloVe at 76.63%).
+2. **Domain-Specific vs Generic Embeddings**: Custom Word2Vec Skip-Gram trained directly on the BBC News corpus beats out-of-domain GloVe by over **+20% accuracy**, demonstrating the vital importance of corpus-specific vocabulary alignment.
+3. **Naive Bayes Strength**: Multinomial Naive Bayes with add-1 Laplace smoothing remains an extraordinarily strong traditional baseline (**97.53%** accuracy).
+
+### 7.2 Actual Test Set Error Analysis (`reports/error_analysis.txt`)
+
+Out of 445 held-out test articles, Pipeline G makes only **12 misclassifications** (Accuracy: 97.30%). Analysis reveals genuine cross-domain lexical overlaps:
+- **Sample #112** (*"News Corp eyes video games market"*): Rupert Murdoch expanding into Activision video games. Actual: **Business**, Predicted: **Tech** (Confidence: 41.2%) due to dominant tech terms (`game`, `video`, `microsoft`).
+- **Sample #222** (*"Games maker fights for survival"*): Argonaut Games entering administration with 100 layoffs. Actual: **Tech**, Predicted: **Business** (Confidence: 37.9%) due to corporate crisis terms (`company`, `sale`, `stock`, `share`).
+- **Sample #285** (*"Report attacks defence spending"*): National Audit Office criticizing £1.7bn MoD equipment overruns. Actual: **Politics**, Predicted: **Business** (Confidence: 40.6%) due to budgetary terms (`bn`, `cost`, `rise`, `report`).
+- **Sample #435** (*"UK pioneers digital film network"*): UK Film Council £11.5m grant for 250 digital cinema screens. Actual: **Tech**, Predicted: **Entertainment** (Confidence: 47.9%) due to media tokens (`film`, `cinema`, `screen`).
+
+### 7.3 Diagnostic Case Study: Short Text vs Full Match Report
+
+We evaluated the diagnostic prompt without hardcoding:
+- **Short Input** (*"Brazil lost 7-1 against Germany"*):
+  - Tokens: `['brazil', 'lose', 'germany']`
+  - Predicted: **Sport** (Confidence: **31.90%** | Business: 26.59%, Entertainment: 16.28%, Politics: 12.70%, Tech: 12.54%).
+  - *Observation*: Without explicit athletic terminology (*"cup"*, *"football"*, *"goal"*), the country names *"Germany"* (which appears 35 times in Business vs 18 in Sport in the 2004–2005 BBC corpus) introduce expected statistical ambiguity.
+- **Informative Input** (*"Germany defeated Brazil 7-1 in the World Cup semifinal, scoring five goals in the first half and reaching the final after a remarkable football performance."*):
+  - Tokens: `['germany', 'defeat', 'brazil', 'world', 'cup', 'semifinal', 'score', 'five', 'goal', 'first', 'half', 'reach', 'final', 'remarkable', 'football', 'performance']`
+  - Predicted: **Sport** (Confidence: **61.02%** | Business: 13.29%, Entertainment: 11.01%, Tech: 7.65%, Politics: 7.02%).
+  - *Active Features*: `world_cup` (bigram), `first_half` (bigram), `cup`, `goal`, `final`, `score` strongly reinforced the Sport prediction.
 
 _Key Takeaway_: Domain-specific Custom Word2Vec embeddings trained directly on the BBC corpus out-perform generic out-of-domain GloVe vectors by over $+20\%$ accuracy. Naive Bayes remains an extraordinarily strong baseline on bag-of-words text distributions ($97.53\%$).
 

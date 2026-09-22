@@ -5,6 +5,7 @@
       "macro_precision": 0.9747,
       "macro_recall": 0.9751,
       "macro_f1": 0.9748,
+      "weighted_f1": 0.9753,
       "confusion_matrix": [
         [
           98,
@@ -82,13 +83,16 @@
         }
       },
       "name": "Pipeline A: N-Gram/BoW -> Naive Bayes",
-      "short_name": "NB (BoW)"
+      "short_name": "NB (BoW)",
+      "model": "Naive Bayes",
+      "representation": "Count / BoW"
     },
     "pipeline_b": {
       "accuracy": 0.964,
       "macro_precision": 0.9636,
       "macro_recall": 0.9626,
       "macro_f1": 0.963,
+      "weighted_f1": 0.9641,
       "confusion_matrix": [
         [
           97,
@@ -166,13 +170,16 @@
         }
       },
       "name": "Pipeline B: Custom Word2Vec (Mean) -> Logistic Regression",
-      "short_name": "W2V (Mean)"
+      "short_name": "W2V (Mean)",
+      "model": "Logistic Regression",
+      "representation": "Word2Vec Mean"
     },
     "pipeline_c": {
       "accuracy": 0.9618,
       "macro_precision": 0.9615,
       "macro_recall": 0.96,
       "macro_f1": 0.9605,
+      "weighted_f1": 0.9618,
       "confusion_matrix": [
         [
           97,
@@ -250,33 +257,36 @@
         }
       },
       "name": "Pipeline C: Custom Word2Vec (TF-IDF) -> Logistic Regression",
-      "short_name": "W2V (TF-IDF)"
+      "short_name": "W2V (TF-IDF)",
+      "model": "Logistic Regression",
+      "representation": "Word2Vec TF-IDF"
     },
     "pipeline_d": {
-      "accuracy": 0.7483,
-      "macro_precision": 0.8261,
-      "macro_recall": 0.7268,
-      "macro_f1": 0.7389,
+      "accuracy": 0.7663,
+      "macro_precision": 0.8204,
+      "macro_recall": 0.7479,
+      "macro_f1": 0.7573,
+      "weighted_f1": 0.7606,
       "confusion_matrix": [
         [
-          91,
+          88,
           1,
-          2,
+          3,
+          7,
+          3
+        ],
+        [
+          17,
+          36,
+          1,
+          23,
+          0
+        ],
+        [
           8,
-          0
-        ],
-        [
-          18,
-          34,
-          0,
-          25,
-          0
-        ],
-        [
-          10,
           1,
-          60,
-          12,
+          66,
+          8,
           1
         ],
         [
@@ -289,9 +299,9 @@
         [
           15,
           2,
-          0,
-          13,
-          50
+          1,
+          9,
+          53
         ]
       ],
       "classes": [
@@ -303,79 +313,82 @@
       ],
       "per_class": {
         "business": {
-          "precision": 0.6594,
-          "recall": 0.8922,
-          "f1": 0.7583,
+          "precision": 0.6667,
+          "recall": 0.8627,
+          "f1": 0.7521,
           "support": 102
         },
         "entertainment": {
-          "precision": 0.8947,
-          "recall": 0.4416,
-          "f1": 0.5913,
+          "precision": 0.9,
+          "recall": 0.4675,
+          "f1": 0.6154,
           "support": 77
         },
         "politics": {
-          "precision": 0.9677,
-          "recall": 0.7143,
-          "f1": 0.8219,
+          "precision": 0.9296,
+          "recall": 0.7857,
+          "f1": 0.8516,
           "support": 84
         },
         "sport": {
-          "precision": 0.6282,
+          "precision": 0.6759,
           "recall": 0.9608,
-          "f1": 0.7597,
+          "f1": 0.7935,
           "support": 102
         },
         "tech": {
-          "precision": 0.9804,
-          "recall": 0.625,
-          "f1": 0.7634,
+          "precision": 0.9298,
+          "recall": 0.6625,
+          "f1": 0.7737,
           "support": 80
         }
       },
       "name": "Pipeline D: Pretrained GloVe (Mean) -> Logistic Regression",
-      "short_name": "GloVe (Mean)"
+      "short_name": "GloVe (Mean)",
+      "model": "Logistic Regression",
+      "representation": "GloVe Mean"
     },
     "pipeline_e": {
-      "accuracy": 0.6607,
-      "macro_precision": 0.7865,
-      "macro_recall": 0.6346,
-      "macro_f1": 0.645,
+      "accuracy": 0.6831,
+      "macro_precision": 0.7804,
+      "macro_recall": 0.6617,
+      "macro_f1": 0.6747,
+      "weighted_f1": 0.6774,
       "confusion_matrix": [
         [
-          87,
+          84,
           0,
-          4,
-          10,
-          1
+          6,
+          9,
+          3
         ],
         [
-          23,
-          31,
+          21,
+          35,
           0,
-          23,
+          21,
           0
         ],
         [
           15,
           1,
-          40,
-          27,
+          44,
+          23,
           1
         ],
         [
           6,
           0,
           0,
-          96,
-          0
+          95,
+          1
         ],
         [
-          25,
+          21,
           0,
           1,
-          14,
-          40
+          12,
+          46
         ]
       ],
       "classes": [
@@ -387,38 +400,214 @@
       ],
       "per_class": {
         "business": {
-          "precision": 0.5577,
-          "recall": 0.8529,
-          "f1": 0.6744,
+          "precision": 0.5714,
+          "recall": 0.8235,
+          "f1": 0.6747,
           "support": 102
         },
         "entertainment": {
-          "precision": 0.9688,
-          "recall": 0.4026,
-          "f1": 0.5688,
+          "precision": 0.9722,
+          "recall": 0.4545,
+          "f1": 0.6195,
           "support": 77
         },
         "politics": {
-          "precision": 0.8889,
-          "recall": 0.4762,
-          "f1": 0.6202,
+          "precision": 0.8627,
+          "recall": 0.5238,
+          "f1": 0.6519,
           "support": 84
         },
         "sport": {
-          "precision": 0.5647,
-          "recall": 0.9412,
-          "f1": 0.7059,
+          "precision": 0.5938,
+          "recall": 0.9314,
+          "f1": 0.7252,
           "support": 102
         },
         "tech": {
-          "precision": 0.9524,
-          "recall": 0.5,
-          "f1": 0.6557,
+          "precision": 0.902,
+          "recall": 0.575,
+          "f1": 0.7023,
           "support": 80
         }
       },
       "name": "Pipeline E: Pretrained GloVe (TF-IDF) -> Logistic Regression",
-      "short_name": "GloVe (TF-IDF)"
+      "short_name": "GloVe (TF-IDF)",
+      "model": "Logistic Regression",
+      "representation": "GloVe TF-IDF"
+    },
+    "pipeline_f": {
+      "accuracy": 0.9708,
+      "macro_precision": 0.9723,
+      "macro_recall": 0.97,
+      "macro_f1": 0.971,
+      "weighted_f1": 0.9709,
+      "confusion_matrix": [
+        [
+          98,
+          1,
+          2,
+          0,
+          1
+        ],
+        [
+          1,
+          76,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          80,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          102,
+          0
+        ],
+        [
+          3,
+          1,
+          0,
+          0,
+          76
+        ]
+      ],
+      "classes": [
+        "business",
+        "entertainment",
+        "politics",
+        "sport",
+        "tech"
+      ],
+      "per_class": {
+        "business": {
+          "precision": 0.9245,
+          "recall": 0.9608,
+          "f1": 0.9423,
+          "support": 102
+        },
+        "entertainment": {
+          "precision": 0.9744,
+          "recall": 0.987,
+          "f1": 0.9806,
+          "support": 77
+        },
+        "politics": {
+          "precision": 0.9756,
+          "recall": 0.9524,
+          "f1": 0.9639,
+          "support": 84
+        },
+        "sport": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 102
+        },
+        "tech": {
+          "precision": 0.987,
+          "recall": 0.95,
+          "f1": 0.9682,
+          "support": 80
+        }
+      },
+      "name": "Pipeline F: TF-IDF (Unigram) -> Logistic Regression",
+      "short_name": "TF-IDF (1-g)",
+      "model": "Logistic Regression",
+      "representation": "TF-IDF Unigram"
+    },
+    "pipeline_g": {
+      "accuracy": 0.973,
+      "macro_precision": 0.9748,
+      "macro_recall": 0.9718,
+      "macro_f1": 0.9731,
+      "weighted_f1": 0.9732,
+      "confusion_matrix": [
+        [
+          99,
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          2,
+          75,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          81,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          102,
+          0
+        ],
+        [
+          3,
+          1,
+          0,
+          0,
+          76
+        ]
+      ],
+      "classes": [
+        "business",
+        "entertainment",
+        "politics",
+        "sport",
+        "tech"
+      ],
+      "per_class": {
+        "business": {
+          "precision": 0.9252,
+          "recall": 0.9706,
+          "f1": 0.9474,
+          "support": 102
+        },
+        "entertainment": {
+          "precision": 0.974,
+          "recall": 0.974,
+          "f1": 0.974,
+          "support": 77
+        },
+        "politics": {
+          "precision": 0.9878,
+          "recall": 0.9643,
+          "f1": 0.9759,
+          "support": 84
+        },
+        "sport": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 102
+        },
+        "tech": {
+          "precision": 0.987,
+          "recall": 0.95,
+          "f1": 0.9682,
+          "support": 80
+        }
+      },
+      "name": "Pipeline G: TF-IDF (Unigram + Bigram) -> Logistic Regression",
+      "short_name": "TF-IDF (1+2g)",
+      "model": "Logistic Regression",
+      "representation": "TF-IDF Unigram + Bigram"
     }
   },
   "clustering": {

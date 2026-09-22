@@ -38,7 +38,7 @@ def project_paths():
 
 
 def test_saved_model_artifacts_exist_and_load(project_paths):
-    """Verify that all four required model files exist and deserialize cleanly."""
+    """Verify that all required model files exist and deserialize cleanly."""
     models_dir = project_paths["models"]
 
     # 1. Naive Bayes
@@ -67,25 +67,34 @@ def test_saved_model_artifacts_exist_and_load(project_paths):
     assert glove.vocab_size > 1000
     assert glove.embedding_dim == 100
 
-    # 4. Logistic Regression weights bundle
+    # 4. TF-IDF Extractors
+    ext_bi_path = os.path.join(models_dir, "tfidf_extractor.pkl")
+    ext_uni_path = os.path.join(models_dir, "tfidf_unigram_extractor.pkl")
+    assert os.path.exists(ext_bi_path), "TF-IDF bigram extractor missing"
+    assert os.path.exists(ext_uni_path), "TF-IDF unigram extractor missing"
+
+    # 5. Logistic Regression weights bundle
     lr_path = os.path.join(models_dir, "logistic_regression_weights.pkl")
     assert os.path.exists(lr_path), "Logistic Regression bundle missing"
-    for pipe_key in ["w2v_mean", "w2v_tfidf", "glove_mean", "glove_tfidf"]:
+    for pipe_key in ["w2v_mean", "w2v_tfidf", "glove_mean", "glove_tfidf", "tfidf_unigram", "tfidf_unigram_bigram"]:
         clf = load_pipeline_logistic_regression(lr_path, pipe_key)
         assert len(clf.classes) == 5
         assert len(clf.classifiers) == 5
 
 
-def test_end_to_end_classification_all_five_pipelines(project_paths):
-    """Verify that sample texts can be classified end-to-end across all 5 pipelines."""
+def test_end_to_end_classification_all_seven_pipelines(project_paths):
+    """Verify that sample texts can be classified end-to-end across all 7 traditional pipelines."""
     models_dir = project_paths["models"]
     prep = TextPreprocessor()
+    from src.tfidf_extractor import TfidfNGramFeatureExtractor
 
     # Load models
     nb = MultinomialNaiveBayes.load(os.path.join(models_dir, "naive_bayes_weights.pkl"))
     w2v = CustomWord2Vec(embedding_dim=100)
     w2v.load(os.path.join(models_dir, "custom_word2vec.pt"), os.path.join(models_dir, "vocab.json"))
     glove = GloVeEmbeddings.load(os.path.join(models_dir, "pretrained_embeddings.npy"), os.path.join(models_dir, "pretrained_embeddings_vocab.json"))
+    ext_uni = TfidfNGramFeatureExtractor.load(os.path.join(models_dir, "tfidf_unigram_extractor.pkl"))
+    ext_bi = TfidfNGramFeatureExtractor.load(os.path.join(models_dir, "tfidf_extractor.pkl"))
     lr_bundle = os.path.join(models_dir, "logistic_regression_weights.pkl")
 
     sample_articles = [
@@ -139,34 +148,49 @@ def test_end_to_end_classification_all_five_pipelines(project_paths):
         assert pred_e in VALID_CATEGORIES
         assert np.isclose(np.sum(prob_e), 1.0, atol=1e-4)
 
+        # Pipeline F: TF-IDF Unigram -> Logistic Regression
+        X_f = ext_uni.transform([tokens])
+        clf_f = load_pipeline_logistic_regression(lr_bundle, "tfidf_unigram")
+        pred_f = clf_f.predict(X_f)[0]
+        prob_f = clf_f.predict_proba(X_f)[0]
+        assert pred_f in VALID_CATEGORIES
+        assert np.isclose(np.sum(prob_f), 1.0, atol=1e-4)
+
+        # Pipeline G: TF-IDF Unigram+Bigram -> Logistic Regression
+        X_g = ext_bi.transform([tokens])
+        clf_g = load_pipeline_logistic_regression(lr_bundle, "tfidf_unigram_bigram")
+        pred_g = clf_g.predict(X_g)[0]
+        prob_g = clf_g.predict_proba(X_g)[0]
+        assert pred_g in VALID_CATEGORIES
+        assert np.isclose(np.sum(prob_g), 1.0, atol=1e-4)
+
 
 def test_reports_and_benchmark_artifacts_integrity(project_paths):
-    """Verify metrics.json, confusion_matrix.png, and clusters.png exist and contain valid data."""
+    """Verify metrics.json, confusion_matrix.png, model_comparison.csv, and error_analysis.txt exist."""
     reports_dir = project_paths["reports"]
     metrics_path = os.path.join(reports_dir, "metrics.json")
     cm_path = os.path.join(reports_dir, "confusion_matrix.png")
-    cluster_path = os.path.join(reports_dir, "clusters.png")
+    comp_csv_path = os.path.join(reports_dir, "model_comparison.csv")
+    error_txt_path = os.path.join(reports_dir, "error_analysis.txt")
+    features_json_path = os.path.join(reports_dir, "top_features_per_category.json")
 
     assert os.path.exists(metrics_path), "reports/metrics.json is missing"
     assert os.path.exists(cm_path), "reports/confusion_matrix.png is missing"
-    assert os.path.exists(cluster_path), "reports/clusters.png is missing"
+    assert os.path.exists(comp_csv_path), "reports/model_comparison.csv is missing"
+    assert os.path.exists(error_txt_path), "reports/error_analysis.txt is missing"
+    assert os.path.exists(features_json_path), "reports/top_features_per_category.json is missing"
 
     with open(metrics_path, "r", encoding="utf-8") as f:
         metrics_data = json.load(f)
 
     assert "pipelines" in metrics_data
-    assert "clustering" in metrics_data
-
     pipelines = metrics_data["pipelines"]
-    assert len(pipelines) >= 5
+    assert len(pipelines) >= 7
     for p_id, p_info in pipelines.items():
         assert 0.0 <= p_info["accuracy"] <= 1.0
         assert 0.0 <= p_info["macro_f1"] <= 1.0
         assert "confusion_matrix" in p_info
         assert len(p_info["confusion_matrix"]) == 5
-
-    # Check clustering note constraint
-    assert "not classification accuracy" in metrics_data["clustering"]["note"].lower()
 
 
 def test_streamlit_application_headless_startup(project_paths):

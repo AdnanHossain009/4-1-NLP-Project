@@ -124,6 +124,8 @@ PRESET_EXAMPLES = {
     "📈 Business": "Corporate profits climbed across international equity markets as central banks signaled prospective interest rate cuts to stimulate economic growth.",
     "🏛️ Politics": "The prime minister defended the annual budget in parliament, promising fiscal reforms and taxation incentives for healthcare and transport infrastructure.",
     "🎭 Entertainment": "The independent film festival awarded top honors to acclaimed international directors and veteran actors during the gala awards ceremony.",
+    "🔬 Diagnostic (Short)": "Brazil lost 7-1 against Germany",
+    "📰 Diagnostic (Match Report)": "Germany defeated Brazil 7-1 in the World Cup semifinal, scoring five goals in the first half and reaching the final after a remarkable football performance.",
     "⚡ Short Text (Edge Case)": "Economy growth",
     "👽 OOV Slang (Edge Case)": "Krypton blork flimzam zork",
 }
@@ -158,7 +160,17 @@ def get_word2vec_model():
     return w2v
 
 
-@st.cache_resource(show_spinner="Loading Pretrained Offline GloVe Cache...")
+@st.cache_resource(show_spinner="Loading TF-IDF Feature Extractor...")
+def get_tfidf_extractor(ngram_type: str = "bigram"):
+    fname = "tfidf_extractor.pkl" if ngram_type == "bigram" else "tfidf_unigram_extractor.pkl"
+    path = os.path.join(project_root, "models", fname)
+    if not os.path.exists(path):
+        return None
+    from src.tfidf_extractor import TfidfNGramFeatureExtractor
+    return TfidfNGramFeatureExtractor.load(path)
+
+
+@st.cache_resource(show_spinner="Loading Offline GloVe Embedding Cache...")
 def get_glove_model():
     npy_path = os.path.join(project_root, "models", "pretrained_embeddings.npy")
     vocab_path = os.path.join(project_root, "models", "pretrained_embeddings_vocab.json")
@@ -272,7 +284,8 @@ st.divider()
 
 with st.sidebar:
     st.header("🛡️ System Integrity Check")
-    st.success("✅ All 8 Required Pretrained Artifacts Verified On Disk")
+    tfidf_ext = get_tfidf_extractor("bigram")
+    st.success("✅ Pretrained Artifacts Verified On Disk")
 
     st.markdown(
         f"""
@@ -280,7 +293,8 @@ with st.sidebar:
         - **Multinomial Naive Bayes**: `Ready` ({nb_model.vocab_size_:,} words)
         - **Custom Word2Vec**: `Ready` (100d, {w2v_model.vocab_size:,} words)
         - **Pretrained GloVe**: `Ready` (100d, {glove_model.vocab_size:,} words)
-        - **Logistic Regression**: `Ready` (4 OvR Pipelines)
+        - **TF-IDF N-Gram Extractor**: {'`Ready` (1-g + 2-g, 8,000 features)' if tfidf_ext else '`Missing`'}
+        - **Logistic Regression**: `Ready` (6 OvR Configurations)
         - **N-Gram Models**: `Ready` (Orders n=2, 3, 4, 5)
         - **Frozen IDF Weights**: `Ready` ({len(idf_weights):,} terms)
         """
@@ -360,8 +374,8 @@ with tab_live_demo:
             st.warning("⚠️ Please enter text to analyze.")
         else:
             try:
-                # Preprocess text
-                tokens = preprocessor.preprocess(cleaned_input, return_tokens=True)
+                # Preprocess text (preserve_numbers=True handles scorelines like 7-1)
+                tokens = preprocessor.preprocess(cleaned_input, return_tokens=True, preserve_numbers=True)
 
                 # Edge Case 2: Very short or non-alphanumeric input
                 if not tokens:
@@ -407,32 +421,60 @@ with tab_live_demo:
                     st.divider()
                     st.subheader("3. Multi-Pipeline Classification Predictions")
 
-                    # Collect predictions across all 5 pipelines
+                    # Collect predictions across all traditional pipelines
                     pipeline_results: Dict[str, Dict[str, Any]] = {}
 
                     # Pipeline 1: Naive Bayes
                     nb_probs = nb_model.predict_proba([tokens])[0]
                     nb_pred = nb_model.predict([tokens])[0]
-                    pipeline_results["Naive Bayes (Count BoW)"] = {
+                    pipeline_results["Naive Bayes (BoW)"] = {
                         "pred": nb_pred,
                         "probs": {c: float(p) for c, p in zip(nb_model.classes_, nb_probs)},
                         "conf": float(np.max(nb_probs)),
                     }
 
-                    # Document vectors for embedding pipelines
+                    # Pipeline 2 & 3: TF-IDF Unigram & Unigram+Bigram
+                    tfidf_bigram_ext = get_tfidf_extractor("bigram")
+                    tfidf_unigram_ext = get_tfidf_extractor("unigram")
+                    lr_tfidf_bigram = get_lr_model_for_pipeline("tfidf_unigram_bigram")
+                    lr_tfidf_unigram = get_lr_model_for_pipeline("tfidf_unigram")
+
+                    active_explanation = None
+                    if tfidf_bigram_ext is not None and lr_tfidf_bigram is not None:
+                        X_bi = tfidf_bigram_ext.transform([tokens])
+                        bi_probs = lr_tfidf_bigram.predict_proba(X_bi)[0]
+                        bi_pred = lr_tfidf_bigram.predict(X_bi)[0]
+                        pipeline_results["LR on TF-IDF (1+2g)"] = {
+                            "pred": bi_pred,
+                            "probs": {c: float(p) for c, p in zip(lr_tfidf_bigram.classes, bi_probs)},
+                            "conf": float(np.max(bi_probs)),
+                        }
+                        active_explanation = tfidf_bigram_ext.explain_instance(tokens, lr_tfidf_bigram.weights, top_k=6)
+
+                    if tfidf_unigram_ext is not None and lr_tfidf_unigram is not None:
+                        X_uni = tfidf_unigram_ext.transform([tokens])
+                        uni_probs = lr_tfidf_unigram.predict_proba(X_uni)[0]
+                        uni_pred = lr_tfidf_unigram.predict(X_uni)[0]
+                        pipeline_results["LR on TF-IDF (1-g)"] = {
+                            "pred": uni_pred,
+                            "probs": {c: float(p) for c, p in zip(lr_tfidf_unigram.classes, uni_probs)},
+                            "conf": float(np.max(uni_probs)),
+                        }
+
+                    # Pipelines 4-7: Word2Vec & GloVe Embedding Pipelines
                     w2v_mean_vec = aggregate_document_mean(tokens, w2v_model)
                     w2v_tfidf_vec = aggregate_document_tfidf(tokens, w2v_model, idf_weights, default_idf=default_idf)
                     glove_mean_vec = aggregate_document_mean(tokens, glove_model)
                     glove_tfidf_vec = aggregate_document_tfidf(tokens, glove_model, idf_weights, default_idf=default_idf)
 
-                    lr_pipelines = [
+                    lr_emb_pipelines = [
                         ("LR on Word2Vec (Mean)", "w2v_mean", w2v_mean_vec),
                         ("LR on Word2Vec (TF-IDF)", "w2v_tfidf", w2v_tfidf_vec),
                         ("LR on GloVe (Mean)", "glove_mean", glove_mean_vec),
                         ("LR on GloVe (TF-IDF)", "glove_tfidf", glove_tfidf_vec),
                     ]
 
-                    for disp_name, pipe_key, vec in lr_pipelines:
+                    for disp_name, pipe_key, vec in lr_emb_pipelines:
                         clf = get_lr_model_for_pipeline(pipe_key)
                         if clf is not None:
                             probs = clf.predict_proba(vec)[0]
@@ -443,7 +485,7 @@ with tab_live_demo:
                                 "conf": float(np.max(probs)),
                             }
 
-                    # Display 5 cards side-by-side
+                    # Display cards side-by-side
                     card_cols = st.columns(len(pipeline_results))
                     for col, (pipe_name, res) in zip(card_cols, pipeline_results.items()):
                         pred_cat = res["pred"]
@@ -454,9 +496,9 @@ with tab_live_demo:
                         with col:
                             st.markdown(
                                 f"""
-                                <div style="border: 2px solid {cat_color}; border-radius: 8px; padding: 12px; background-color: {cat_color}10; text-align: center; min-height: 150px;">
-                                    <span style="font-size: 0.8em; color: #555; font-weight: 600; text-transform: uppercase;">{pipe_name}</span>
-                                    <h3 style="margin: 8px 0 4px 0; color: {cat_color}; font-size: 1.3em;">{icon} {pred_cat.capitalize()}</h3>
+                                <div style="border: 2px solid {cat_color}; border-radius: 8px; padding: 10px; background-color: {cat_color}10; text-align: center; min-height: 145px;">
+                                    <span style="font-size: 0.72em; color: #555; font-weight: 600; text-transform: uppercase;">{pipe_name}</span>
+                                    <h3 style="margin: 6px 0 2px 0; color: {cat_color}; font-size: 1.2em;">{icon} {pred_cat.capitalize()}</h3>
                                     <p style="margin: 0; font-size: 1.05em; font-weight: bold; color: #222;">{conf_pct:.1f}%</p>
                                     <span style="font-size: 0.75em; color: #777;">Confidence Score</span>
                                 </div>
@@ -478,7 +520,7 @@ with tab_live_demo:
                     )
 
                     # Detailed Probability Comparison Table
-                    with st.expander("📊 View Complete Category Probability Breakdown across all 5 Models", expanded=False):
+                    with st.expander(f"📊 View Complete Category Probability Breakdown across all {len(pipeline_results)} Models", expanded=False):
                         prob_table_data = []
                         for cat in sorted(list(VALID_CATEGORIES)):
                             row = {"Category": f"{CATEGORY_ICONS.get(cat, '')} {cat.capitalize()}"}
@@ -487,6 +529,28 @@ with tab_live_demo:
                                 row[pipe_name] = f"{prob_val * 100:.2f}%"
                             prob_table_data.append(row)
                         st.dataframe(pd.DataFrame(prob_table_data), use_container_width=True)
+
+                    # Explainability section for TF-IDF
+                    if active_explanation is not None:
+                        st.markdown("---")
+                        st.subheader("🔬 Mathematical Feature Explainability (TF-IDF Weights)")
+                        active_terms = active_explanation.get("active_vocab_terms", [])
+                        if active_terms:
+                            st.write(f"**Vocabulary Terms Detected in Input ({len(active_terms)} found):** " + ", ".join([f"`{t}`" for t in active_terms]))
+                            top_pipe_pred = pipeline_results.get("LR on TF-IDF (1+2g)", {}).get("pred", top_vote)
+                            top_feats = active_explanation["class_explanations"].get(top_pipe_pred, [])
+                            if top_feats:
+                                st.write(f"**Top Mathematical Contributors for `{top_pipe_pred.upper()}` ($x_j \\cdot W_c[j]$):**")
+                                feat_cols = st.columns(min(len(top_feats), 4))
+                                for f_idx, feat in enumerate(top_feats[:4]):
+                                    with feat_cols[f_idx]:
+                                        st.metric(
+                                            label=feat["term"],
+                                            value=f"{feat['contribution']:+.3f}",
+                                            delta=f"w={feat['weight']:+.2f} | tfidf={feat['tfidf']:.2f}",
+                                        )
+                        else:
+                            st.info("ℹ️ No in-vocabulary terms detected for this short input. Prediction reflects base classifier biases.")
 
                     # -------------------------------------------------
                     # Section C: N-Gram Language Model Analysis

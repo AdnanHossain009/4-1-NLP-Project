@@ -89,8 +89,14 @@ class TextPreprocessor:
         clean = re.compile(r"<[^>]+?>")
         return clean.sub(" ", text)
 
-    def clean_text(self, text: str) -> str:
-        """Perform lowercasing, HTML stripping, non-alpha filtering, and whitespace normalization."""
+    def clean_text(self, text: str, preserve_numbers: bool = False) -> str:
+        """Perform lowercasing, HTML stripping, non-alpha filtering, and whitespace normalization.
+
+        Args:
+            text: Raw input string.
+            preserve_numbers: If True (Config B), preserves numbers and scores (e.g. '7-1');
+                              If False (Config A), filters non-alphabetic characters.
+        """
         if not isinstance(text, str):
             return ""
 
@@ -103,18 +109,25 @@ class TextPreprocessor:
         # 3. Strip URL patterns
         text = re.sub(r"https?://\S+|www\.\S+", " ", text)
 
-        # 4. Filter non-alphabetic characters (replace punctuation/numbers with spaces)
-        text = re.sub(r"[^a-z\s]", " ", text)
+        # 4. Filter characters based on configuration
+        if preserve_numbers:
+            # Config B: Preserve letters, digits, and hyphens for scores (e.g. 7-1)
+            text = re.sub(r"[^a-z0-9\-\s]", " ", text)
+        else:
+            # Config A: Filter non-alphabetic characters
+            text = re.sub(r"[^a-z\s]", " ", text)
 
         # 5. Normalize whitespace
         text = re.sub(r"\s+", " ", text).strip()
         return text
 
-    def tokenize(self, text: str) -> List[str]:
+    def tokenize(self, text: str, preserve_numbers: bool = False) -> List[str]:
         """Tokenize text into distinct word tokens."""
-        clean = self.clean_text(text)
+        clean = self.clean_text(text, preserve_numbers=preserve_numbers)
         if not clean:
             return []
+        if preserve_numbers:
+            return re.findall(r"\b[a-z0-9]+(?:-[a-z0-9]+)*\b", clean)
         try:
             return word_tokenize(clean)
         except Exception:
@@ -142,6 +155,7 @@ class TextPreprocessor:
         remove_stopwords: bool = True,
         lemmatize: bool = True,
         return_tokens: bool = True,
+        preserve_numbers: bool = False,
     ) -> Union[List[str], str]:
         """Execute full preprocessing pipeline.
 
@@ -150,11 +164,12 @@ class TextPreprocessor:
             remove_stopwords: Whether to eliminate common stopwords.
             lemmatize: Whether to apply WordNet lemmatization.
             return_tokens: If True, returns List[str]; else returns joined string.
+            preserve_numbers: Whether to keep numeric patterns (Config B) or strip them (Config A).
 
         Returns:
             Preprocessed tokens or space-separated string.
         """
-        tokens = self.tokenize(text)
+        tokens = self.tokenize(text, preserve_numbers=preserve_numbers)
 
         if remove_stopwords:
             tokens = self.remove_stopwords(tokens)

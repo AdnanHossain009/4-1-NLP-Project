@@ -1,0 +1,8 @@
+Pipeline ID,Model,Representation,Accuracy,Precision,Recall,Macro F1,Weighted F1
+PIPELINE_A,Naive Bayes,Count / BoW,0.9753,0.9747,0.9751,0.9748,0.9753
+PIPELINE_B,Logistic Regression,Word2Vec Mean,0.9640,0.9636,0.9626,0.9630,0.9641
+PIPELINE_C,Logistic Regression,Word2Vec TF-IDF,0.9618,0.9615,0.9600,0.9605,0.9618
+PIPELINE_D,Logistic Regression,GloVe Mean,0.7663,0.8204,0.7479,0.7573,0.7606
+PIPELINE_E,Logistic Regression,GloVe TF-IDF,0.6831,0.7804,0.6617,0.6747,0.6774
+PIPELINE_F,Logistic Regression,TF-IDF Unigram,0.9708,0.9723,0.9700,0.9710,0.9709
+PIPELINE_G,Logistic Regression,TF-IDF Unigram + Bigram,0.9730,0.9748,0.9718,0.9731,0.9732

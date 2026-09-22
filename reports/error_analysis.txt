@@ -1,0 +1,125 @@
+================================================================================
+ERROR ANALYSIS: HELD-OUT TEST SET MISCLASSIFICATIONS
+Model: One-vs-Rest Logistic Regression on TF-IDF (Unigram + Bigram)
+Total Test Samples: 445 | Errors: 12 | Accuracy: 97.30%
+================================================================================
+
+--- [Error 01 / 12] Test Sample #112 ---
+Actual Category   : BUSINESS
+Predicted Category: TECH (Confidence: 41.2%)
+Title             : News Corp eyes video games market
+Text Snippet      : News Corp, the media company controlled by Australian billionaire Rupert Murdoch, is eyeing a move into the video games market. According to the Financial Times, chief operating officer Peter Chernin said that News Corp is "kicking the tires of pretty much all video games companies". Santa Monica-based Activison is said...
+Probabilities     : business: 27.8% | entertainment: 10.1% | politics: 7.5% | sport: 13.4% | tech: 41.2%
+Key Predicted Features (tech): game (w=1.86), video (w=0.96), video_game (w=0.25), microsoft (w=1.16)
+Key Actual Features    (business)   : company (w=1.75), price (w=1.48), market (w=1.63), firm (w=1.61)
+Observable Reason : The business article focuses on high-tech startups, digital infrastructure, or telecom networks, activating technology-weighted coefficients.
+
+--- [Error 02 / 12] Test Sample #129 ---
+Actual Category   : POLITICS
+Predicted Category: BUSINESS (Confidence: 25.8%)
+Title             : Nuclear strike 'key terror risk'
+Text Snippet      : The UK and US must realise they cannot prevent all terror attacks and should focus on making sure they are not nuclear strikes, says a top academic. Amitai Etzioni, a key influence on New Labour thinking, says the US emphasis on an "Axis of Evil" is misplaced. The priority should...
+Probabilities     : business: 25.8% | entertainment: 12.9% | politics: 25.1% | sport: 15.1% | tech: 21.1%
+Key Predicted Features (business): state (w=0.69), u (w=1.15), report (w=0.52), russia (w=0.45)
+Key Actual Features    (politics)   : nuclear (w=0.23), say (w=1.40), labour (w=2.26), hunt (w=0.69)
+Observable Reason : The political article centers on corporate legislation, employment figures, or market taxation, triggering positive business model coefficients.
+
+--- [Error 03 / 12] Test Sample #219 ---
+Actual Category   : TECH
+Predicted Category: BUSINESS (Confidence: 41.7%)
+Title             : US blogger fired by her airline
+Text Snippet      : A US airline attendant suspended over "inappropriate images" on her blog - web diary - says she has been fired. Ellen Simonetti, known as Queen of the Sky, wrote an anonymous semi-fictional account of her life in the sky. She was suspended by Delta in September. In a statement, she...
+Probabilities     : business: 41.7% | entertainment: 10.8% | politics: 13.3% | sport: 9.1% | tech: 25.1%
+Key Predicted Features (business): airline (w=0.91), bn (w=2.68), company (w=1.75), u (w=1.15)
+Key Actual Features    (tech)   : blog (w=0.98), image (w=0.71), website (w=0.84), delta (w=0.11)
+Observable Reason : The article reports on commercial technology companies, intellectual property acquisitions, or quarterly earnings of software corporations, resulting in dominant business features.
+
+--- [Error 04 / 12] Test Sample #222 ---
+Actual Category   : TECH
+Predicted Category: BUSINESS (Confidence: 37.9%)
+Title             : Games maker fights for survival
+Text Snippet      : One of Britain's largest independent game makers, Argonaut Games, has been put up for sale. The London-based company behind the Harry Potter games has sacked about 100 employees due to a severe cash crisis. The administrators told BBC News Online that selling Argonaut was the only way to save it...
+Probabilities     : business: 37.9% | entertainment: 9.5% | politics: 10.7% | sport: 12.6% | tech: 29.2%
+Key Predicted Features (business): company (w=1.75), sale (w=1.24), stock (w=1.00), share (w=1.30)
+Key Actual Features    (tech)   : game (w=1.86), online (w=1.14), developer (w=0.43), software (w=1.59)
+Observable Reason : The article reports on commercial technology companies, intellectual property acquisitions, or quarterly earnings of software corporations, resulting in dominant business features.
+
+--- [Error 05 / 12] Test Sample #258 ---
+Actual Category   : ENTERTAINMENT
+Predicted Category: BUSINESS (Confidence: 23.1%)
+Title             : No charges against TV's Cosby
+Text Snippet      : US comedian Bill Cosby will not face charges stemming from an allegation of sexual misconduct. Authorities in Philadelphia said they found insufficient evidence to support the woman's allegations regarding an alleged incident in January 2004. The woman reported the allegations to Canadian authorities last month. Cosby's lawyer, Walter M Phillips...
+Probabilities     : business: 23.1% | entertainment: 22.9% | politics: 19.9% | sport: 22.4% | tech: 11.7%
+Key Predicted Features (business): u (w=1.15), allegation (w=0.11), also_say (w=0.22), supply (w=0.37)
+Key Actual Features    (entertainment)   : show (w=1.54), star (w=2.05), comedian (w=0.19), woman (w=0.17)
+Observable Reason : The entertainment article covers box office grosses, studio mergers, or film budget financing, emphasizing financial vocabulary.
+
+--- [Error 06 / 12] Test Sample #285 ---
+Actual Category   : POLITICS
+Predicted Category: BUSINESS (Confidence: 40.6%)
+Title             : Report attacks defence spending
+Text Snippet      : The Ministry of Defence has been criticised over the soaring spending costs and growing delays of its top equipment projects. A National Audit Office report on the 20 biggest projects says costs have risen by £1.7bn in the past year. It says there is "little evidence" the MoD's performance had...
+Probabilities     : business: 40.6% | entertainment: 15.1% | politics: 17.7% | sport: 12.8% | tech: 13.8%
+Key Predicted Features (business): bn (w=2.68), cost (w=0.58), rise (w=1.46), report (w=0.52)
+Key Actual Features    (politics)   : say (w=1.40), lord (w=1.39), minister (w=1.66), correspondent (w=0.22)
+Observable Reason : The political article centers on corporate legislation, employment figures, or market taxation, triggering positive business model coefficients.
+
+--- [Error 07 / 12] Test Sample #301 ---
+Actual Category   : ENTERTAINMENT
+Predicted Category: BUSINESS (Confidence: 33.9%)
+Title             : German music in a 'zombie' state
+Text Snippet      : The German music business - the third largest in the world - is "in the state of a zombie" because it has failed to respond to the challenge posed by downloading and piracy, a leading industry figure has said. Tim Renner, the head of Universal Music Germany until last year,...
+Probabilities     : business: 33.9% | entertainment: 20.9% | politics: 9.0% | sport: 8.0% | tech: 28.3%
+Key Predicted Features (business): bn (w=2.68), market (w=1.63), sale (w=1.24), euro (w=1.16)
+Key Actual Features    (entertainment)   : music (w=1.41), album (w=1.40), record (w=0.49), music_industry (w=0.10)
+Observable Reason : The entertainment article covers box office grosses, studio mergers, or film budget financing, emphasizing financial vocabulary.
+
+--- [Error 08 / 12] Test Sample #347 ---
+Actual Category   : POLITICS
+Predicted Category: BUSINESS (Confidence: 31.0%)
+Title             : Gurkhas to help tsunami victims
+Text Snippet      : Britain has offered to send a company of 120 Gurkhas to assist with the tsunami relief effort in Indonesia, Downing Street said. The deployment would involve troops from the 2nd Battalion Royal Gurkha Rifles, based in Brunei. Discussions have begun with Indonesia on the exact timing and location of the...
+Probabilities     : business: 31.0% | entertainment: 12.2% | politics: 27.8% | sport: 15.2% | tech: 13.8%
+Key Predicted Features (business): company (w=1.75), indonesia (w=0.19), government (w=0.56), aircraft (w=0.31)
+Key Actual Features    (politics)   : government (w=1.57), say (w=1.40), minister (w=1.66), secretary (w=1.08)
+Observable Reason : The political article centers on corporate legislation, employment figures, or market taxation, triggering positive business model coefficients.
+
+--- [Error 09 / 12] Test Sample #355 ---
+Actual Category   : BUSINESS
+Predicted Category: POLITICS (Confidence: 40.4%)
+Title             : Aids and climate top Davos agenda
+Text Snippet      : Climate change and the fight against Aids are leading the list of concerns for the first day of the World Economic Forum in the Swiss resort of Davos. Some 2,000 business and political leaders from around the globe will listen to UK Prime Minister Tony Blair's opening speech on Wednesday....
+Probabilities     : business: 34.8% | entertainment: 8.0% | politics: 40.4% | sport: 6.9% | tech: 9.9%
+Key Predicted Features (politics): blair (w=1.77), mr (w=2.67), mr_blair (w=1.17), leader (w=0.81)
+Key Actual Features    (business)   : economic (w=1.23), company (w=1.75), business (w=0.91), bn (w=2.68)
+Observable Reason : The article discusses government economic policies, state fiscal budgets, or ministerial regulatory announcements, where political terminology heavily overlaps with economic indicators.
+
+--- [Error 10 / 12] Test Sample #377 ---
+Actual Category   : BUSINESS
+Predicted Category: ENTERTAINMENT (Confidence: 30.8%)
+Title             : McDonald's to sponsor MTV show
+Text Snippet      : McDonald's, the world's largest restaurant chain, is to sponsor a programme on music channel MTV as part of its latest youth market promotion. The show Advance Warning highlights new talent and MTV reckons it will give McDonald's access to nearly 400 million homes in 162 countries. McDonald's golden arches, name...
+Probabilities     : business: 29.3% | entertainment: 30.8% | politics: 10.8% | sport: 11.1% | tech: 18.0%
+Key Predicted Features (entertainment): star (w=2.05), music (w=1.41), show (w=1.54), mtv (w=0.27)
+Key Actual Features    (business)   : market (w=1.63), u (w=1.15), company (w=1.75), firm (w=1.61)
+Observable Reason : Cross-domain terminology: text contains strong positive indicators for entertainment which statistically outnumbered unique features for business.
+
+--- [Error 11 / 12] Test Sample #399 ---
+Actual Category   : TECH
+Predicted Category: BUSINESS (Confidence: 38.9%)
+Title             : China 'ripe' for media explosion
+Text Snippet      : Asia is set to drive global media growth to 2008 and beyond, with China and India filling the two top spots, analysts have predicted. Japan, South Korea and Singapore will also be strong players, but China's demographics give it the edge, a media conference in London heard. The world's most...
+Probabilities     : business: 38.9% | entertainment: 13.1% | politics: 7.1% | sport: 5.9% | tech: 35.0%
+Key Predicted Features (business): china (w=0.88), investment (w=0.85), market (w=1.63), foreign (w=0.34)
+Key Actual Features    (tech)   : mobile (w=1.87), medium (w=0.50), game (w=1.86), digital (w=1.31)
+Observable Reason : The article reports on commercial technology companies, intellectual property acquisitions, or quarterly earnings of software corporations, resulting in dominant business features.
+
+--- [Error 12 / 12] Test Sample #435 ---
+Actual Category   : TECH
+Predicted Category: ENTERTAINMENT (Confidence: 47.9%)
+Title             : UK pioneers digital film network
+Text Snippet      : The world's first digital cinema network will be established in the UK over the next 18 months. The UK Film Council has awarded a contract worth £11.5m to Arts Alliance Digital Cinema (AADC), who will set up the network of up to 250 screens. AADC will oversee the selection of...
+Probabilities     : business: 7.0% | entertainment: 47.9% | politics: 6.7% | sport: 5.8% | tech: 32.6%
+Key Predicted Features (entertainment): film (w=4.00), cinema (w=0.36), show (w=1.54), screen (w=0.36)
+Key Actual Features    (tech)   : digital (w=1.31), network (w=1.18), computer (w=1.75), print (w=0.18)
+Observable Reason : Cross-domain terminology: text contains strong positive indicators for entertainment which statistically outnumbered unique features for tech.

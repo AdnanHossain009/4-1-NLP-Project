@@ -281,7 +281,11 @@ class OneVsRestLogisticRegression:
         print(f"[OvR Logistic Regression] Model weights successfully saved to: {filepath}")
 
     @classmethod
-    def load(cls, filepath: str = "models/logistic_regression_weights.pkl") -> "OneVsRestLogisticRegression":
+    def load(
+        cls,
+        filepath: str = "models/logistic_regression_weights.pkl",
+        pipeline_key: Optional[str] = None,
+    ) -> "OneVsRestLogisticRegression":
         """Load trained weights, biases, and classifiers from local pickle file."""
         if not os.path.exists(filepath):
             raise FileNotFoundError(f"Model file not found at: {filepath}")
@@ -289,11 +293,30 @@ class OneVsRestLogisticRegression:
         with open(filepath, "rb") as f:
             payload = pickle.load(f)
 
-        # Handle both single model payload and dictionary bundle
-        if "classes" not in payload and "models" in payload:
-            # Multi-pipeline bundle: select primary model
-            payload = payload["models"]["glove_tfidf"]
+        if "all_pipelines" in payload:
+            target_key = pipeline_key if pipeline_key is not None else payload.get("primary_pipeline", "tfidf_unigram_bigram")
+            if target_key in payload["all_pipelines"]:
+                pipe_data = payload["all_pipelines"][target_key]
+                model = cls(
+                    classes=pipe_data["classes"],
+                    learning_rate=payload.get("learning_rate", 0.5),
+                    n_iterations=payload.get("n_iterations", 1000),
+                    l2_reg=payload.get("l2_reg", 0.0001),
+                )
+                model.weights = pipe_data["weights"]
+                model.biases = pipe_data["biases"]
+                for cat in model.classes:
+                    clf = BinaryLogisticRegression(
+                        learning_rate=model.learning_rate,
+                        n_iterations=model.n_iterations,
+                        l2_reg=model.l2_reg,
+                    )
+                    clf.w = model.weights[cat].copy()
+                    clf.b = float(model.biases[cat])
+                    model.classifiers[cat] = clf
+                return model
 
+        # Fallback for single-model payload
         model = cls(
             classes=payload["classes"],
             learning_rate=payload.get("learning_rate", 0.5),
@@ -303,7 +326,6 @@ class OneVsRestLogisticRegression:
         model.weights = payload["weights"]
         model.biases = payload["biases"]
 
-        # Rebuild internal binary classifiers
         for cat in model.classes:
             clf = BinaryLogisticRegression(
                 learning_rate=model.learning_rate,
@@ -325,17 +347,22 @@ def train_and_evaluate_all_pipelines(
     csv_path: str = "data/bbc_news.csv",
     save_path: str = "models/logistic_regression_weights.pkl",
     learning_rate: float = 0.5,
-    n_iterations: int = 800,
+    n_iterations: int = 1000,
     verbose: bool = True,
 ) -> Dict[str, Any]:
-    """Train and evaluate OvR Logistic Regression across all Step 5 representation pipelines.
+    """Train and evaluate OvR Logistic Regression across all representation pipelines.
 
-    Evaluates 4 document-vector pipelines:
+    Evaluates 6 Logistic Regression configurations:
       1. Pipeline B: Custom Word2Vec + Mean Aggregation
       2. Pipeline C: Custom Word2Vec + TF-IDF Weighted Aggregation
       3. Pipeline D: Pretrained GloVe + Mean Aggregation
       4. Pipeline E: Pretrained GloVe + TF-IDF Weighted Aggregation
+      5. Pipeline F: TF-IDF (Unigram)
+      6. Pipeline G: TF-IDF (Unigram + Bigram)
     """
+    from src.tfidf_extractor import TfidfNGramFeatureExtractor
+    import json
+
     if verbose:
         print("=" * 70)
         print("TRAINING MULTI-CLASS ONE-VS-REST LOGISTIC REGRESSION FROM SCRATCH")
@@ -355,7 +382,7 @@ def train_and_evaluate_all_pipelines(
     y_train = train_df["category"].tolist()
     y_test = test_df["category"].tolist()
 
-    # 2. Strict Zero-Data-Leakage IDF Weights
+    # 2. Strict Zero-Data-Leakage IDF Weights for Embeddings
     idf_weights, default_idf = compute_training_idf(train_tokens, smooth=True)
 
     # 3. Load Embedding Models (Word2Vec + GloVe)
@@ -371,7 +398,6 @@ def train_and_evaluate_all_pipelines(
             if verbose:
                 print(f"[Word2Vec Warning] Could not load Custom Word2Vec: {e}")
 
-    # Load or generate GloVe cache
     glove_npy = "models/pretrained_embeddings.npy"
     glove_vocab = "models/pretrained_embeddings_vocab.json"
     if not os.path.exists(glove_npy) or not os.path.exists(glove_vocab):
@@ -382,37 +408,59 @@ def train_and_evaluate_all_pipelines(
     if verbose:
         print(f"[GloVe] Loaded GloVe model ({glove_model.vocab_size:,} words, {glove_model.embedding_dim}d)")
 
-    # 4. Define representation pipelines to build
+    # 4. Prepare TF-IDF Feature Extractors (Fitted strictly on training data)
+    if verbose:
+        print("\n[TF-IDF] Fitting Unigram Extractor (min_df=2, max_features=5000)...")
+    ext_unigram = TfidfNGramFeatureExtractor(ngram_range=(1, 1), min_df=2, max_features=5000)
+    X_train_uni = ext_unigram.fit_transform(train_tokens)
+    X_test_uni = ext_unigram.transform(test_tokens)
+    ext_unigram.save("models/tfidf_unigram_extractor.pkl")
+
+    if verbose:
+        print(f"[TF-IDF] Fitting Unigram+Bigram Extractor (min_df=2, max_features=8000)...")
+    ext_bigram = TfidfNGramFeatureExtractor(ngram_range=(1, 2), min_df=2, max_features=8000)
+    X_train_bi = ext_bigram.fit_transform(train_tokens)
+    X_test_bi = ext_bigram.transform(test_tokens)
+    ext_bigram.save("models/tfidf_extractor.pkl")
+
+    # 5. Define representation pipelines to train
     pipeline_configs = []
 
+    # Embedding pipelines
     if w2v_model is not None:
-        pipeline_configs.append(("w2v_mean", "Custom Word2Vec (Mean)", w2v_model, "mean"))
-        pipeline_configs.append(("w2v_tfidf", "Custom Word2Vec (TF-IDF)", w2v_model, "tfidf"))
+        pipeline_configs.append(("w2v_mean", "Custom Word2Vec (Mean)", "emb", w2v_model, "mean"))
+        pipeline_configs.append(("w2v_tfidf", "Custom Word2Vec (TF-IDF)", "emb", w2v_model, "tfidf"))
 
-    pipeline_configs.append(("glove_mean", "Pretrained GloVe (Mean)", glove_model, "mean"))
-    pipeline_configs.append(("glove_tfidf", "Pretrained GloVe (TF-IDF)", glove_model, "tfidf"))
+    pipeline_configs.append(("glove_mean", "Pretrained GloVe (Mean)", "emb", glove_model, "mean"))
+    pipeline_configs.append(("glove_tfidf", "Pretrained GloVe (TF-IDF)", "emb", glove_model, "tfidf"))
+
+    # TF-IDF pipelines
+    pipeline_configs.append(("tfidf_unigram", "TF-IDF (Unigram)", "direct", (X_train_uni, X_test_uni), None))
+    pipeline_configs.append(("tfidf_unigram_bigram", "TF-IDF (Unigram + Bigram)", "direct", (X_train_bi, X_test_bi), None))
 
     results: Dict[str, Any] = {
         "pipeline_accuracies": {},
         "models": {},
-        "primary_pipeline": "glove_tfidf" if ("glove_tfidf" in [p[0] for p in pipeline_configs]) else pipeline_configs[0][0],
+        "primary_pipeline": "tfidf_unigram_bigram",
     }
 
     trained_models: Dict[str, OneVsRestLogisticRegression] = {}
 
-    for pipe_key, pipe_name, emb_model, agg_type in pipeline_configs:
+    for pipe_key, pipe_name, p_type, model_or_data, agg_type in pipeline_configs:
         if verbose:
             print(f"\n--- Training Pipeline: {pipe_name} ---")
 
-        # Vectorize train and test documents
-        if agg_type == "mean":
-            X_train = vectorize_corpus_mean(train_tokens, emb_model)
-            X_test = vectorize_corpus_mean(test_tokens, emb_model)
+        if p_type == "emb":
+            emb_model = model_or_data
+            if agg_type == "mean":
+                X_tr = vectorize_corpus_mean(train_tokens, emb_model)
+                X_te = vectorize_corpus_mean(test_tokens, emb_model)
+            else:
+                X_tr = vectorize_corpus_tfidf(train_tokens, emb_model, idf_weights, default_idf=default_idf)
+                X_te = vectorize_corpus_tfidf(test_tokens, emb_model, idf_weights, default_idf=default_idf)
         else:
-            X_train = vectorize_corpus_tfidf(train_tokens, emb_model, idf_weights, default_idf=default_idf)
-            X_test = vectorize_corpus_tfidf(test_tokens, emb_model, idf_weights, default_idf=default_idf)
+            X_tr, X_te = model_or_data
 
-        # Fit pure NumPy One-vs-Rest Logistic Regression
         clf = OneVsRestLogisticRegression(
             classes=VALID_CATEGORIES,
             learning_rate=learning_rate,
@@ -420,10 +468,10 @@ def train_and_evaluate_all_pipelines(
             l2_reg=0.0001,
             seed=42,
         )
-        clf.fit(X_train, y_train, verbose=False)
+        clf.fit(X_tr, y_train, verbose=False)
 
-        train_acc = clf.score(X_train, y_train)
-        test_acc = clf.score(X_test, y_test)
+        train_acc = clf.score(X_tr, y_train)
+        test_acc = clf.score(X_te, y_test)
 
         trained_models[pipe_key] = clf
         results["pipeline_accuracies"][pipe_key] = {
@@ -435,11 +483,36 @@ def train_and_evaluate_all_pipelines(
         if verbose:
             print(f"  Result: Train Acc = {train_acc * 100:.2f}% | Test Acc = {test_acc * 100:.2f}%")
 
-    # Select primary model to serialize directly (standardizes inference for Streamlit / tests)
+    # Select primary model
     primary_key = results["primary_pipeline"]
     primary_clf = trained_models[primary_key]
 
-    # Save comprehensive bundle preserving weights for all representations
+    # 6. Extract learned feature weights per category for explainability
+    top_features_per_category: Dict[str, List[Dict[str, Any]]] = {}
+    feature_names = ext_bigram.feature_names_
+    for cat in primary_clf.classes:
+        w = primary_clf.weights[cat]  # shape (8000,)
+        # Sort indices by positive weight descending
+        top_indices = np.argsort(w)[::-1][:25]
+        cat_top = []
+        for idx in top_indices:
+            cat_top.append({
+                "term": feature_names[idx],
+                "weight": round(float(w[idx]), 4),
+            })
+        top_features_per_category[cat] = cat_top
+
+    os.makedirs("reports", exist_ok=True)
+    with open("reports/top_features_per_category.json", "w", encoding="utf-8") as f:
+        json.dump(top_features_per_category, f, indent=2)
+
+    if verbose:
+        print("\n[Explainability] Saved top learned positive feature weights to reports/top_features_per_category.json")
+        for cat, feats in top_features_per_category.items():
+            top_terms = [f"{item['term']} ({item['weight']})" for item in feats[:5]]
+            print(f"  {cat.capitalize():15s}: {', '.join(top_terms)}")
+
+    # 7. Save comprehensive bundle preserving weights for all representations
     bundle_payload = {
         "classes": primary_clf.classes,
         "weights": primary_clf.weights,
