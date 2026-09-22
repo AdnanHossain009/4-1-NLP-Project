@@ -311,7 +311,7 @@ with st.sidebar:
 tab_live_demo, tab_semantic, tab_benchmarks = st.tabs([
     "🎯 Live Multi-Model Inference & N-Gram Analysis",
     "🌐 Word2Vec Semantic Explorer",
-    "📊 Evaluation Benchmarks & Clustering",
+    "📊 Evaluation Benchmarks",
 ])
 
 
@@ -597,17 +597,17 @@ with tab_semantic:
 
 
 # =====================================================================
-# TAB 3: Benchmarks & Clustering Visualizations
+# TAB 3: Model Evaluation Benchmarks
 # =====================================================================
 
 with tab_benchmarks:
-    st.subheader("Evaluation Benchmarks & Unsupervised Clustering")
+    st.subheader("Model Evaluation Benchmarks")
     metrics_data = load_metrics_report()
 
     if metrics_data is None:
         st.info("ℹ️ Evaluation metrics not found. Run `python train_pipeline.py` to generate reports.")
     else:
-        st.write("### 1. Model Comparison Table (Held-Out Test Split: 445 Articles)")
+        st.write("### Model Comparison Table (Held-Out Test Split: 445 Articles)")
         table_rows = []
         for p_id, p_info in metrics_data.get("pipelines", {}).items():
             table_rows.append({
@@ -619,34 +619,3 @@ with tab_benchmarks:
             })
         st.dataframe(pd.DataFrame(table_rows), use_container_width=True)
 
-        st.divider()
-        st.write("### 2. Multi-Pipeline Confusion Matrices")
-        cm_image_path = os.path.join(project_root, "reports", "confusion_matrix.png")
-        if os.path.exists(cm_image_path):
-            st.image(
-                cm_image_path,
-                caption="Confusion Matrices across all 5 pipelines (Held-out 445-sample test split)",
-                use_container_width=True,
-            )
-        else:
-            st.warning("Confusion matrix plot not found at `reports/confusion_matrix.png`.")
-
-        st.divider()
-        st.write("### 3. Unsupervised K-Means Clustering Analysis (k=5)")
-        clustering_info = metrics_data.get("clustering", {})
-        s_score = clustering_info.get("silhouette_score", 0.0)
-
-        st.info(
-            f"**Clustering Metric — Silhouette Score:** `{s_score:.4f}`\n\n"
-            f"**Academic Constraint:** {clustering_info.get('note', 'Unsupervised clustering analysis; not classification accuracy')}"
-        )
-
-        cluster_image_path = os.path.join(project_root, "reports", "clusters.png")
-        if os.path.exists(cluster_image_path):
-            st.image(
-                cluster_image_path,
-                caption="2D PCA Projection: Unsupervised K-Means Clusters vs Ground-Truth References",
-                use_container_width=True,
-            )
-        else:
-            st.warning("Cluster visualization plot not found at `reports/clusters.png`.")
