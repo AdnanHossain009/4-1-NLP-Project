@@ -14,129 +14,90 @@
 \@writefile{toc}{\contentsline {section}{\numberline {2}Background and Theoretical Formulations}{2}{section.2}\protected@file@percent }
 \newlabel{sec:background}{{2}{2}{Background and Theoretical Formulations}{section.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Term Frequency--Inverse Document Frequency ($\text  {TF-IDF}$)}{2}{subsection.2.1}\protected@file@percent }
+\newlabel{eq:tf}{{1}{2}{Term Frequency--Inverse Document Frequency (\texorpdfstring {$\text {TF-IDF}$}{TF-IDF})}{equation.1}{}}
+\newlabel{eq:idf}{{2}{2}{Term Frequency--Inverse Document Frequency (\texorpdfstring {$\text {TF-IDF}$}{TF-IDF})}{equation.2}{}}
 \citation{mikolov2013distributed}
-\citation{mikolov2013distributed}
-\newlabel{eq:tf}{{1}{3}{Term Frequency--Inverse Document Frequency (\texorpdfstring {$\text {TF-IDF}$}{TF-IDF})}{equation.1}{}}
-\newlabel{eq:idf}{{2}{3}{Term Frequency--Inverse Document Frequency (\texorpdfstring {$\text {TF-IDF}$}{TF-IDF})}{equation.2}{}}
 \newlabel{eq:l2_norm}{{3}{3}{Term Frequency--Inverse Document Frequency (\texorpdfstring {$\text {TF-IDF}$}{TF-IDF})}{equation.3}{}}
-\@writefile{toc}{\contentsline {paragraph}{Proof of Length Invariance:}{3}{equation.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Word2Vec: Skip-Gram with Negative Sampling (SGNS)}{3}{subsection.2.2}\protected@file@percent }
 \newlabel{eq:sg_obj}{{4}{3}{Word2Vec: Skip-Gram with Negative Sampling (SGNS)}{equation.4}{}}
-\newlabel{eq:full_softmax}{{5}{3}{Word2Vec: Skip-Gram with Negative Sampling (SGNS)}{equation.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Derivation of the Sigmoid Negative Sampling Objective}{3}{subsubsection.2.2.1}\protected@file@percent }
-\citation{mikolov2013distributed}
-\newlabel{eq:p_d1}{{6}{4}{Derivation of the Sigmoid Negative Sampling Objective}{equation.6}{}}
-\newlabel{eq:p_d0}{{7}{4}{Derivation of the Sigmoid Negative Sampling Objective}{equation.7}{}}
-\newlabel{eq:sgns_loss}{{10}{4}{Derivation of the Sigmoid Negative Sampling Objective}{equation.10}{}}
-\newlabel{eq:grad_context}{{11}{4}{Derivation of the Sigmoid Negative Sampling Objective}{equation.11}{}}
-\newlabel{eq:grad_noise}{{12}{4}{Derivation of the Sigmoid Negative Sampling Objective}{equation.12}{}}
-\newlabel{eq:grad_target}{{13}{4}{Derivation of the Sigmoid Negative Sampling Objective}{equation.13}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Theoretical Justification for the Unigram Noise Exponent $P_n(w) \propto f(w)^{3/4}$}{4}{subsubsection.2.2.2}\protected@file@percent }
-\newlabel{eq:unigram_noise}{{14}{5}{Theoretical Justification for the Unigram Noise Exponent \texorpdfstring {$P_n(w) \propto f(w)^{3/4}$}{Pn(w) proportional to f(w)\^{}3/4}}{equation.14}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparative sampling probabilities across noise distributions for terms of varying frequency.}}{5}{table.caption.1}\protected@file@percent }
+\newlabel{eq:sgns_loss}{{5}{3}{Word2Vec: Skip-Gram with Negative Sampling (SGNS)}{equation.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Document Vector Aggregation: Naive vs. Weighted Centroid}{3}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Arithmetic Mean Pooling}{3}{subsubsection.2.3.1}\protected@file@percent }
+\newlabel{eq:mean_pooling}{{6}{3}{Arithmetic Mean Pooling}{equation.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}TF-IDF Weighted Centroid Aggregation}{4}{subsubsection.2.3.2}\protected@file@percent }
+\newlabel{eq:tfidf_pooling}{{7}{4}{TF-IDF Weighted Centroid Aggregation}{equation.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Multinomial Logistic Regression Formulation}{4}{subsection.2.4}\protected@file@percent }
+\newlabel{eq:softmax_prob}{{8}{4}{Multinomial Logistic Regression Formulation}{equation.8}{}}
+\newlabel{eq:full_cross_entropy}{{9}{4}{Multinomial Logistic Regression Formulation}{equation.9}{}}
+\newlabel{eq:matrix_gradient}{{10}{4}{Multinomial Logistic Regression Formulation}{equation.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}One-vs-Rest (OvR) Binary Decomposition}{4}{subsection.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Dataset, Corpus, and Preprocessing}{4}{section.3}\protected@file@percent }
+\newlabel{sec:dataset}{{3}{4}{Dataset, Corpus, and Preprocessing}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Corpus Description}{4}{subsection.3.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Dataset distribution across categories and experimental partitions.}}{5}{table.caption.1}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{tab:noise_distribution_comparison}{{1}{5}{Comparative sampling probabilities across noise distributions for terms of varying frequency}{table.caption.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Document Vector Aggregation: Naive vs. Weighted Centroid}{5}{subsection.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Arithmetic Mean Pooling}{5}{subsubsection.2.3.1}\protected@file@percent }
-\newlabel{eq:mean_pooling}{{16}{5}{Arithmetic Mean Pooling}{equation.16}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}TF-IDF Weighted Centroid Aggregation}{5}{subsubsection.2.3.2}\protected@file@percent }
-\newlabel{eq:tfidf_pooling}{{17}{5}{TF-IDF Weighted Centroid Aggregation}{equation.17}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Multinomial Logistic Regression \& Cross-Entropy Gradient Derivation}{5}{subsection.2.4}\protected@file@percent }
-\newlabel{eq:softmax_prob}{{18}{5}{Multinomial Logistic Regression \& Cross-Entropy Gradient Derivation}{equation.18}{}}
-\newlabel{eq:full_cross_entropy}{{19}{6}{Multinomial Logistic Regression \& Cross-Entropy Gradient Derivation}{equation.19}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.1}Step-by-Step Mathematical Derivation of the Gradient}{6}{subsubsection.2.4.1}\protected@file@percent }
-\newlabel{eq:loss_chain_rule}{{21}{6}{Step-by-Step Mathematical Derivation of the Gradient}{equation.21}{}}
-\@writefile{toc}{\contentsline {paragraph}{Case 1: $k = c$ (Diagonal Terms)}{6}{equation.21}\protected@file@percent }
-\newlabel{eq:softmax_case1}{{22}{6}{Case 1: $k = c$ (Diagonal Terms)}{equation.22}{}}
-\@writefile{toc}{\contentsline {paragraph}{Case 2: $k \ne  c$ (Off-Diagonal Terms)}{6}{equation.22}\protected@file@percent }
-\newlabel{eq:softmax_case2}{{23}{6}{Case 2: $k \ne c$ (Off-Diagonal Terms)}{equation.23}{}}
-\newlabel{eq:softmax_jacobian}{{24}{6}{Case 2: $k \ne c$ (Off-Diagonal Terms)}{equation.24}{}}
-\newlabel{eq:residual}{{28}{6}{Case 2: $k \ne c$ (Off-Diagonal Terms)}{equation.28}{}}
-\newlabel{eq:weight_gradient_vector}{{30}{7}{Case 2: $k \ne c$ (Off-Diagonal Terms)}{equation.30}{}}
-\newlabel{eq:matrix_gradient}{{31}{7}{Case 2: $k \ne c$ (Off-Diagonal Terms)}{equation.31}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}One-vs-Rest (OvR) Binary Decomposition}{7}{subsection.2.5}\protected@file@percent }
-\newlabel{eq:ovr_sigmoid}{{32}{7}{One-vs-Rest (OvR) Binary Decomposition}{equation.32}{}}
-\newlabel{eq:bgd}{{33}{7}{One-vs-Rest (OvR) Binary Decomposition}{equation.33}{}}
-\newlabel{eq:ovr_norm}{{34}{7}{One-vs-Rest (OvR) Binary Decomposition}{equation.34}{}}
-\newlabel{eq:attribution}{{35}{7}{One-vs-Rest (OvR) Binary Decomposition}{equation.35}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Dataset, Corpus, and Preprocessing}{7}{section.3}\protected@file@percent }
-\newlabel{sec:dataset}{{3}{7}{Dataset, Corpus, and Preprocessing}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Corpus Description}{7}{subsection.3.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Dataset distribution across categories and experimental partitions.}}{7}{table.caption.2}\protected@file@percent }
-\newlabel{tab:dataset_split}{{2}{7}{Dataset distribution across categories and experimental partitions}{table.caption.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Preprocessing Pipeline \& Data Leakage Prevention}{7}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Proposed Methodology}{8}{section.4}\protected@file@percent }
-\newlabel{sec:methodology}{{4}{8}{Proposed Methodology}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Architectural Overview}{8}{subsection.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Flowchart illustrating the data preparation, tokenization protocol, and zero-leakage training isolation pipeline.}}{8}{figure.caption.3}\protected@file@percent }
-\newlabel{fig:pipeline_flowchart}{{1}{8}{Flowchart illustrating the data preparation, tokenization protocol, and zero-leakage training isolation pipeline}{figure.caption.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Formal Procedural Algorithms}{8}{subsection.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Overall system architecture contrasting sparse frequency extraction and dense semantic embedding aggregation heads.}}{9}{figure.caption.4}\protected@file@percent }
-\newlabel{fig:overall_architecture}{{2}{9}{Overall system architecture contrasting sparse frequency extraction and dense semantic embedding aggregation heads}{figure.caption.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Structural comparison between high-dimensional sparse n-gram representation and continuous dense centroid embeddings.}}{9}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:vector_comparison}{{3}{9}{Structural comparison between high-dimensional sparse n-gram representation and continuous dense centroid embeddings}{figure.caption.5}{}}
-\newlabel{alg:centroid_extraction}{{\caption@xref {??}{ on input line 589}}{9}{Formal Procedural Algorithms}{figure.caption.6}{}}
-\newlabel{alg:ovr_bgd}{{\caption@xref {??}{ on input line 617}}{10}{Formal Procedural Algorithms}{figure.caption.7}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Systematic hyperparameter configuration across all experimental modules.}}{10}{table.caption.8}\protected@file@percent }
-\newlabel{tab:hyperparameters}{{3}{10}{Systematic hyperparameter configuration across all experimental modules}{table.caption.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Training and Experimental Setup}{10}{section.5}\protected@file@percent }
-\newlabel{sec:setup}{{5}{10}{Training and Experimental Setup}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Evaluation Protocol}{10}{subsection.5.1}\protected@file@percent }
-\newlabel{eq:macro_f1}{{36}{10}{Evaluation Protocol}{equation.36}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Results and Quantitative Evaluation}{11}{section.6}\protected@file@percent }
-\newlabel{sec:results}{{6}{11}{Results and Quantitative Evaluation}{section.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Benchmark Performance Matrix}{11}{subsection.6.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Benchmark performance comparison across all seven traditional NLP pipelines on the held-out test split ($N=445$).}}{11}{table.caption.9}\protected@file@percent }
-\newlabel{tab:model_comparison}{{4}{11}{Benchmark performance comparison across all seven traditional NLP pipelines on the held-out test split ($N=445$)}{table.caption.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Cross-Architectural Class-Wise Comparison}{11}{subsection.6.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Per-class F1-score performance comparison across key foundational architectures on the held-out test split ($N=445$).}}{11}{table.caption.10}\protected@file@percent }
-\newlabel{tab:architecture_class_comparison}{{5}{11}{Per-class F1-score performance comparison across key foundational architectures on the held-out test split ($N=445$)}{table.caption.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Granular Class-Wise Evaluation of Pipeline G}{12}{subsection.6.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Detailed class-wise performance breakdown for Pipeline G ($\text  {TF-IDF}$ Unigram + Bigram $\to $ Logistic Regression).}}{12}{table.caption.11}\protected@file@percent }
-\newlabel{tab:classwise_performance}{{6}{12}{Detailed class-wise performance breakdown for Pipeline G ($\text {TF-IDF}$ Unigram + Bigram $\to $ Logistic Regression)}{table.caption.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Confusion Matrix Analysis \& Cross-Model Error Distribution}{12}{subsection.6.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Confusion matrix for Pipeline G ($\text  {TF-IDF}$ Unigram + Bigram + Logistic Regression) on held-out test split ($N=445$).}}{12}{table.caption.12}\protected@file@percent }
-\newlabel{tab:confusion_matrix_g}{{7}{12}{Confusion matrix for Pipeline G ($\text {TF-IDF}$ Unigram + Bigram + Logistic Regression) on held-out test split ($N=445$)}{table.caption.12}{}}
-\@writefile{toc}{\contentsline {paragraph}{Pipeline G Diagonal Verification:}{12}{table.caption.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Pipeline C Diagonal Verification \& Comparative Error Analysis:}{12}{table.caption.13}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Confusion matrix for Pipeline C (Custom Word2Vec + $\text  {TF-IDF}$ Centroid Pooling) on held-out test split ($N=445$).}}{13}{table.caption.13}\protected@file@percent }
-\newlabel{tab:confusion_matrix_c}{{8}{13}{Confusion matrix for Pipeline C (Custom Word2Vec + $\text {TF-IDF}$ Centroid Pooling) on held-out test split ($N=445$)}{table.caption.13}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Computational Complexity, Model Footprint, and Latency Analysis}{13}{subsection.6.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Computational complexity, model parameter footprint, training duration, and per-document inference latency across pipelines.}}{13}{table.caption.14}\protected@file@percent }
-\newlabel{tab:computational_complexity}{{9}{13}{Computational complexity, model parameter footprint, training duration, and per-document inference latency across pipelines}{table.caption.14}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}In-Depth Error Analysis and Discussion}{13}{section.7}\protected@file@percent }
-\newlabel{sec:error_analysis}{{7}{13}{In-Depth Error Analysis and Discussion}{section.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}The Benchmark Headline Diagnostic: \textit  {``brazil lost 7-1 against germany''}}{13}{subsection.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Root-Cause Deconstruction}{13}{subsection.7.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Empirical probability distributions on the diagnostic failure case vs. the contextualized match report.}}{14}{table.caption.15}\protected@file@percent }
-\newlabel{tab:diagnostic_comparison}{{10}{14}{Empirical probability distributions on the diagnostic failure case vs. the contextualized match report}{table.caption.15}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.1}1. Dilution in Dense Centroid Averaging on Short Texts}{14}{subsubsection.7.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.2}2. Tokenization Artifacts: The Loss of Scoreline Discriminators}{14}{subsubsection.7.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.3}3. Lexical Co-occurrence Bias in the Domain Training Corpus}{14}{subsubsection.7.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.4}4. Document Length Mismatch}{14}{subsubsection.7.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Live Streamlit UI Diagnostic Demonstration}{15}{subsection.7.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Live Streamlit diagnostic interface displaying inference results for the diagnostic test headline \textit  {"brazil lost 7-1 against germany"}. The panel illustrates the category probability distribution (Business: 55.57\%, Sport: 44.00\%, Politics: 0.29\%, Entertainment: 0.11\%, Tech: 0.02\%) under Custom Word2Vec TF-IDF centroid aggregation.}}{15}{figure.caption.16}\protected@file@percent }
-\newlabel{fig:streamlit_demo}{{4}{15}{Live Streamlit diagnostic interface displaying inference results for the diagnostic test headline \textit {"brazil lost 7-1 against germany"}. The panel illustrates the category probability distribution (Business: 55.57\%, Sport: 44.00\%, Politics: 0.29\%, Entertainment: 0.11\%, Tech: 0.02\%) under Custom Word2Vec TF-IDF centroid aggregation}{figure.caption.16}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Theoretical Analysis of Recurrent Models and Future Work}{16}{section.8}\protected@file@percent }
-\newlabel{sec:limitations}{{8}{16}{Theoretical Analysis of Recurrent Models and Future Work}{section.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Inherent Limitations of Bag-of-Tokens Approaches}{16}{subsection.8.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Mathematical Justification for Bypassing Recurrent Models}{16}{subsection.8.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.2.1}Gating Formulations in Long Short-Term Memory Networks}{16}{subsubsection.8.2.1}\protected@file@percent }
-\newlabel{eq:lstm_f}{{39}{16}{Gating Formulations in Long Short-Term Memory Networks}{equation.39}{}}
-\newlabel{eq:lstm_i}{{40}{16}{Gating Formulations in Long Short-Term Memory Networks}{equation.40}{}}
-\newlabel{eq:lstm_c_tilde}{{41}{16}{Gating Formulations in Long Short-Term Memory Networks}{equation.41}{}}
-\newlabel{eq:lstm_c}{{42}{16}{Gating Formulations in Long Short-Term Memory Networks}{equation.42}{}}
-\newlabel{eq:lstm_o}{{43}{16}{Gating Formulations in Long Short-Term Memory Networks}{equation.43}{}}
-\newlabel{eq:lstm_h}{{44}{16}{Gating Formulations in Long Short-Term Memory Networks}{equation.44}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.2.2}Backpropagation Through Time (BPTT) and Gradient Dynamics}{16}{subsubsection.8.2.2}\protected@file@percent }
-\newlabel{eq:bptt_chain}{{45}{16}{Backpropagation Through Time (BPTT) and Gradient Dynamics}{equation.45}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.2.3}Formal Parameter Complexity and Overfitting Proof on Moderate Corpora}{17}{subsubsection.8.2.3}\protected@file@percent }
-\newlabel{eq:lstm_params}{{49}{17}{Formal Parameter Complexity and Overfitting Proof on Moderate Corpora}{equation.49}{}}
+\newlabel{tab:dataset_split}{{1}{5}{Dataset distribution across categories and experimental partitions}{table.caption.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Preprocessing Pipeline \& Data Leakage Prevention}{5}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Proposed Methodology}{5}{section.4}\protected@file@percent }
+\newlabel{sec:methodology}{{4}{5}{Proposed Methodology}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Architectural Overview}{5}{subsection.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Flowchart illustrating the data preparation, tokenization protocol, and zero-leakage training isolation pipeline.}}{6}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:pipeline_flowchart}{{1}{6}{Flowchart illustrating the data preparation, tokenization protocol, and zero-leakage training isolation pipeline}{figure.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Overall system architecture showing the classification pipelines and the complementary semantic analysis component.}}{6}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:overall_architecture}{{2}{6}{Overall system architecture showing the classification pipelines and the complementary semantic analysis component}{figure.caption.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Structural comparison between high-dimensional sparse n-gram representation and continuous dense centroid embeddings.}}{6}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:vector_comparison}{{3}{6}{Structural comparison between high-dimensional sparse n-gram representation and continuous dense centroid embeddings}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Formal Procedural Algorithms}{6}{subsection.4.2}\protected@file@percent }
+\newlabel{alg:centroid_extraction}{{\caption@xref {??}{ on input line 460}}{7}{Formal Procedural Algorithms}{figure.caption.5}{}}
+\newlabel{alg:ovr_bgd}{{\caption@xref {??}{ on input line 488}}{7}{Formal Procedural Algorithms}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Training and Experimental Setup}{7}{section.5}\protected@file@percent }
+\newlabel{sec:setup}{{5}{7}{Training and Experimental Setup}{section.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Systematic hyperparameter configuration across all experimental modules.}}{8}{table.caption.7}\protected@file@percent }
+\newlabel{tab:hyperparameters}{{2}{8}{Systematic hyperparameter configuration across all experimental modules}{table.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Evaluation Protocol}{8}{subsection.5.1}\protected@file@percent }
+\newlabel{eq:macro_f1}{{11}{8}{Evaluation Protocol}{equation.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Results and Quantitative Evaluation}{8}{section.6}\protected@file@percent }
+\newlabel{sec:results}{{6}{8}{Results and Quantitative Evaluation}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Benchmark Performance Matrix}{8}{subsection.6.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Benchmark performance comparison across all seven traditional NLP pipelines on the held-out test split ($N=445$).}}{8}{table.caption.8}\protected@file@percent }
+\newlabel{tab:model_comparison}{{3}{8}{Benchmark performance comparison across all seven traditional NLP pipelines on the held-out test split ($N=445$)}{table.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Cross-Architectural Class-Wise Comparison}{8}{subsection.6.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Per-class F1-score performance comparison across key foundational architectures on the held-out test split ($N=445$).}}{9}{table.caption.9}\protected@file@percent }
+\newlabel{tab:architecture_class_comparison}{{4}{9}{Per-class F1-score performance comparison across key foundational architectures on the held-out test split ($N=445$)}{table.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Granular Class-Wise Evaluation of Pipeline G}{9}{subsection.6.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Detailed class-wise performance breakdown for Pipeline G ($\text  {TF-IDF}$ Unigram + Bigram $\to $ Logistic Regression).}}{9}{table.caption.10}\protected@file@percent }
+\newlabel{tab:classwise_performance}{{5}{9}{Detailed class-wise performance breakdown for Pipeline G ($\text {TF-IDF}$ Unigram + Bigram $\to $ Logistic Regression)}{table.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Confusion Matrix Analysis \& Cross-Model Error Distribution}{9}{subsection.6.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Confusion matrix for Pipeline G ($\text  {TF-IDF}$ Unigram + Bigram + Logistic Regression) on held-out test split ($N=445$).}}{10}{table.caption.11}\protected@file@percent }
+\newlabel{tab:confusion_matrix_g}{{6}{10}{Confusion matrix for Pipeline G ($\text {TF-IDF}$ Unigram + Bigram + Logistic Regression) on held-out test split ($N=445$)}{table.caption.11}{}}
+\@writefile{toc}{\contentsline {paragraph}{Pipeline G Diagonal Verification:}{10}{table.caption.11}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Confusion matrix for Pipeline C (Custom Word2Vec + $\text  {TF-IDF}$ Centroid Pooling) on held-out test split ($N=445$).}}{10}{table.caption.12}\protected@file@percent }
+\newlabel{tab:confusion_matrix_c}{{7}{10}{Confusion matrix for Pipeline C (Custom Word2Vec + $\text {TF-IDF}$ Centroid Pooling) on held-out test split ($N=445$)}{table.caption.12}{}}
+\@writefile{toc}{\contentsline {paragraph}{Pipeline C Diagonal Verification \& Comparative Error Analysis:}{10}{table.caption.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Computational Complexity, Model Footprint, and Latency Analysis}{10}{subsection.6.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Computational complexity, model parameter footprint, training duration, and per-document inference latency across pipelines.}}{11}{table.caption.13}\protected@file@percent }
+\newlabel{tab:computational_complexity}{{8}{11}{Computational complexity, model parameter footprint, training duration, and per-document inference latency across pipelines}{table.caption.13}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}In-Depth Error Analysis and Discussion}{11}{section.7}\protected@file@percent }
+\newlabel{sec:error_analysis}{{7}{11}{In-Depth Error Analysis and Discussion}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}The Benchmark Headline Diagnostic: \textit  {``brazil lost 7-1 against germany''}}{11}{subsection.7.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Empirical probability distributions on the diagnostic failure case vs. the contextualized match report.}}{11}{table.caption.14}\protected@file@percent }
+\newlabel{tab:diagnostic_comparison}{{9}{11}{Empirical probability distributions on the diagnostic failure case vs. the contextualized match report}{table.caption.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Root-Cause Deconstruction}{11}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.1}1. Dilution in Dense Centroid Averaging on Short Texts}{11}{subsubsection.7.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.2}2. Tokenization Artifacts: The Loss of Scoreline Discriminators}{12}{subsubsection.7.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.3}3. Lexical Co-occurrence Bias in the Domain Training Corpus}{12}{subsubsection.7.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.4}4. Document Length Mismatch}{12}{subsubsection.7.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Live Streamlit UI Diagnostic Demonstration}{12}{subsection.7.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Live Streamlit diagnostic interface displaying inference results for the diagnostic test headline \textit  {"brazil lost 7-1 against germany"}. The panel illustrates the category probability distribution (Business: 55.57\%, Sport: 44.00\%, Politics: 0.29\%, Entertainment: 0.11\%, Tech: 0.02\%) under Custom Word2Vec TF-IDF centroid aggregation.}}{13}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:streamlit_demo}{{4}{13}{Live Streamlit diagnostic interface displaying inference results for the diagnostic test headline \textit {"brazil lost 7-1 against germany"}. The panel illustrates the category probability distribution (Business: 55.57\%, Sport: 44.00\%, Politics: 0.29\%, Entertainment: 0.11\%, Tech: 0.02\%) under Custom Word2Vec TF-IDF centroid aggregation}{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Limitations and Future Work}{13}{section.8}\protected@file@percent }
+\newlabel{sec:limitations}{{8}{13}{Limitations and Future Work}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Current Limitations}{13}{subsection.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Future Work}{14}{subsection.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{14}{section.9}\protected@file@percent }
+\newlabel{sec:conclusion}{{9}{14}{Conclusion}{section.9}{}}
 \bibcite{manning2008introduction}{1}
 \bibcite{salton1988term}{2}
 \bibcite{mikolov2013distributed}{3}
 \bibcite{wang2012baselines}{4}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Roadmap for Transformer Fine-Tuning \& Low-Resource Languages}{18}{subsection.8.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{18}{section.9}\protected@file@percent }
-\newlabel{sec:conclusion}{{9}{18}{Conclusion}{section.9}{}}
-\gdef \@abspage@last{21}
+\gdef \@abspage@last{16}

@@ -26,7 +26,7 @@ if project_root not in sys.path:
 
 # Set page configuration before any UI rendering
 st.set_page_config(
-    page_title="BBC News Classification & Semantic Analysis",
+    page_title="News Classification & Semantic Analysis",
     page_icon="📰",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -347,23 +347,7 @@ with tab_live_demo:
         help="Paste article text from any category, or test edge cases like very short phrases or out-of-vocabulary words.",
     )
 
-    col_btn, col_ngram_sel = st.columns([2, 1])
-    with col_btn:
-        analyze_clicked = st.button("🚀 Analyze Text Across All Models", type="primary", use_container_width=True)
-    with col_ngram_sel:
-        ngram_order_labels = {
-            "Trigram (n=3) [Recommended]": 3,
-            "Bigram (n=2)": 2,
-            "4-Gram (n=4)": 4,
-            "5-Gram (n=5)": 5,
-        }
-        selected_ngram_label = st.selectbox(
-            "N-Gram Analysis Order",
-            options=list(ngram_order_labels.keys()),
-            index=0,
-            help="Select n-gram order for next-word suggestion and perplexity calculation.",
-        )
-        selected_n = ngram_order_labels[selected_ngram_label]
+    analyze_clicked = st.button("🚀 Analyze Text Across All Models", type="primary", use_container_width=True)
 
     # Process on button click or existing non-empty input
     cleaned_input = user_text.strip()
@@ -439,7 +423,6 @@ with tab_live_demo:
                     lr_tfidf_bigram = get_lr_model_for_pipeline("tfidf_unigram_bigram")
                     lr_tfidf_unigram = get_lr_model_for_pipeline("tfidf_unigram")
 
-                    active_explanation = None
                     if tfidf_bigram_ext is not None and lr_tfidf_bigram is not None:
                         X_bi = tfidf_bigram_ext.transform([tokens])
                         bi_probs = lr_tfidf_bigram.predict_proba(X_bi)[0]
@@ -449,7 +432,6 @@ with tab_live_demo:
                             "probs": {c: float(p) for c, p in zip(lr_tfidf_bigram.classes, bi_probs)},
                             "conf": float(np.max(bi_probs)),
                         }
-                        active_explanation = tfidf_bigram_ext.explain_instance(tokens, lr_tfidf_bigram.weights, top_k=6)
 
                     if tfidf_unigram_ext is not None and lr_tfidf_unigram is not None:
                         X_uni = tfidf_unigram_ext.transform([tokens])
@@ -530,76 +512,6 @@ with tab_live_demo:
                             prob_table_data.append(row)
                         st.dataframe(pd.DataFrame(prob_table_data), use_container_width=True)
 
-                    # Explainability section for TF-IDF
-                    if active_explanation is not None:
-                        st.markdown("---")
-                        st.subheader("🔬 Mathematical Feature Explainability (TF-IDF Weights)")
-                        active_terms = active_explanation.get("active_vocab_terms", [])
-                        if active_terms:
-                            st.write(f"**Vocabulary Terms Detected in Input ({len(active_terms)} found):** " + ", ".join([f"`{t}`" for t in active_terms]))
-                            top_pipe_pred = pipeline_results.get("LR on TF-IDF (1+2g)", {}).get("pred", top_vote)
-                            top_feats = active_explanation["class_explanations"].get(top_pipe_pred, [])
-                            if top_feats:
-                                st.write(f"**Top Mathematical Contributors for `{top_pipe_pred.upper()}` ($x_j \\cdot W_c[j]$):**")
-                                feat_cols = st.columns(min(len(top_feats), 4))
-                                for f_idx, feat in enumerate(top_feats[:4]):
-                                    with feat_cols[f_idx]:
-                                        st.metric(
-                                            label=feat["term"],
-                                            value=f"{feat['contribution']:+.3f}",
-                                            delta=f"w={feat['weight']:+.2f} | tfidf={feat['tfidf']:.2f}",
-                                        )
-                        else:
-                            st.info("ℹ️ No in-vocabulary terms detected for this short input. Prediction reflects base classifier biases.")
-
-                    # -------------------------------------------------
-                    # Section C: N-Gram Language Model Analysis
-                    # -------------------------------------------------
-                    st.divider()
-                    st.subheader(f"4. N-Gram Language Model Analysis ({selected_ngram_label})")
-
-                    lm = ngram_models.get(selected_n)
-                    if lm is None:
-                        st.info(f"N-Gram language model for n={selected_n} is not available.")
-                    else:
-                        extracted_ngrams = lm.extract_ngrams(tokens, n=selected_n)
-                        last_tokens = tokens[- (selected_n - 1) :] if len(tokens) >= (selected_n - 1) else tokens
-                        ctx_str = " ".join(last_tokens) if last_tokens else "<s>"
-
-                        # Perplexity calculation
-                        ppl = lm.calculate_perplexity(tokens)
-                        log_lik = lm.calculate_log_likelihood(tokens)
-
-                        ng_col1, ng_col2 = st.columns([1, 1])
-
-                        with ng_col1:
-                            st.write("**Language Model Predictability Metrics:**")
-                            m_col1, m_col2 = st.columns(2)
-                            with m_col1:
-                                st.metric("Perplexity PP(W)", f"{ppl:.2f}" if ppl != float("inf") else "∞")
-                            with m_col2:
-                                st.metric("Log-Likelihood", f"{log_lik:.2f}")
-
-                            st.write(f"**Extracted {selected_n}-Grams ({len(extracted_ngrams):,} found):**")
-                            if not extracted_ngrams:
-                                st.caption(f"*Sequence length ({len(tokens)} tokens) is shorter than order n={selected_n}.*")
-                            else:
-                                display_ng = [" ".join(ng) for ng in extracted_ngrams[:8]]
-                                st.write(", ".join([f"`{ng}`" for ng in display_ng]))
-                                if len(extracted_ngrams) > 8:
-                                    st.caption(f"*...and {len(extracted_ngrams) - 8} more.*")
-
-                        with ng_col2:
-                            st.write(f"**Top Next-Word Suggestions given context: `'{ctx_str}'`**")
-                            predictions = lm.predict_next_words(last_tokens, top_k=5)
-                            if not predictions:
-                                st.caption("*No in-vocabulary context predictions available.*")
-                            else:
-                                pred_rows = [
-                                    {"Next Word": f"'{w}'", "Conditional Probability P(w|context)": f"{p:.5f}"}
-                                    for w, p in predictions
-                                ]
-                                st.table(pd.DataFrame(pred_rows))
 
             except Exception as e:
                 st.error(f"❌ An error occurred during processing: {str(e)}")

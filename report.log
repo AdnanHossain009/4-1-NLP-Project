@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.2.18)  22 SEP 2026 21:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.2.18)  23 SEP 2026 01:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -880,8 +880,8 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 )
 \c@algfloat=\count360
 \c@algline=\count361
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 98
-.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 10
+1.
  (E:\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -891,24 +891,24 @@ File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 ) (report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 98.
-LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -918,15 +918,15 @@ LaTeX Font Info:    ... okay on input line 98.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(66.48827pt, 464.53134pt, 66.48827pt)
-* v-part:(T,H,B)=(66.48827pt, 712.07031pt, 66.48827pt)
+* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=464.53134pt
-* \textheight=712.07031pt
-* \oddsidemargin=-5.78172pt
-* \evensidemargin=-5.78172pt
-* \topmargin=-42.78172pt
+* \textwidth=452.9679pt
+* \textheight=700.50687pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=11.0pt
@@ -974,13 +974,13 @@ Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count369
-LaTeX Info: Redefining \microtypecontext on input line 98.
-Package microtype Info: Applying patch `item' on input line 98.
-Package microtype Info: Applying patch `toc' on input line 98.
-Package microtype Info: Applying patch `eqnum' on input line 98.
-Package microtype Info: Applying patch `footnote' on input line 98.
-Package microtype Info: Applying patch `verbatim' on input line 98.
-LaTeX Info: Redefining \microtypesetup on input line 98.
+LaTeX Info: Redefining \microtypecontext on input line 101.
+Package microtype Info: Applying patch `item' on input line 101.
+Package microtype Info: Applying patch `toc' on input line 101.
+Package microtype Info: Applying patch `eqnum' on input line 101.
+Package microtype Info: Applying patch `footnote' on input line 101.
+Package microtype Info: Applying patch `verbatim' on input line 101.
+LaTeX Info: Redefining \microtypesetup on input line 101.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -992,7 +992,7 @@ Package microtype Info: No adjustment of character kerning.
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-Package hyperref Info: Link coloring ON on input line 98.
+Package hyperref Info: Link coloring ON on input line 101.
  (report.out) (report.out)
 \@outlinefile=\write4
 \openout4 = `report.out'.
@@ -1000,84 +1000,75 @@ Package hyperref Info: Link coloring ON on input line 98.
  [1
 
 {C:/Users/Hp/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{E:/MiKTeX/fonts/
-enc/dvips/lm/lm-ec.enc}] (report.toc
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
-.
+enc/dvips/lm/lm-ec.enc}]
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
+72.
  (E:\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
-.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
+72.
 
 (E:\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-2.
+172.
  (E:\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-2.
+172.
 
 (E:\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 2.
+(Font)              <10.95> on input line 172.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 2.
+(Font)              <8> on input line 172.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 2.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 2.
+(Font)              <6> on input line 172.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 172
+.
  (E:\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 (E:\MiKTeX\tex/latex/microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 2.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 172
+.
 
 (E:\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 (E:\MiKTeX\tex/latex/microtype\mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-))
-\tf@toc=\write5
-\openout5 = `report.toc'.
-
- [1{E:/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{E:/MiKTeX/fonts/enc/dvips/lm/lm
--rm.enc}{E:/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}] (report.lof)
-\tf@lof=\write6
-\openout6 = `report.lof'.
-
- (report.lot)
-\tf@lot=\write7
-\openout7 = `report.lot'.
-
- [2]
+)
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.186 ...itemize}[leftmargin=1.5em, itemsep=0.2em]
-                                                   [1]
+l.176 ...section{Core Objectives \& Contributions}
+                                                   [1{E:/MiKTeX/fonts/enc/dvips
+/lm/lm-mathit.enc}{E:/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}{E:/MiKTeX/fonts/
+enc/dvips/lm/lm-rm.enc}]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-87.
-
-(E:\MiKTeX\tex/latex/lm\ts1lmr.fd
+79.
+ (E:\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-Overfull \hbox (4.2835pt too wide) in paragraph at lines 193--194
-[]\T1/lmr/bx/n/10.95 Live In-ter-ac-tive Ex-plain-abil-ity En-gine: \T1/lmr/m/n
-/10.95 En-gi-neer-ing of an of-fline, production-grade Stream-
+) [2{E:/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}{E:/MiKTeX/fonts/enc/dvips/lm/lm-m
+athex.enc}] [3]
+Overfull \hbox (13.22997pt too wide) in paragraph at lines 256--258
+\T1/lmr/m/n/10.95 Optimization min-i-mizes the reg-u-lar-ized cat-e-gor-i-cal c
+ross-entropy loss over $\OML/lmm/m/it/10.95 m$ \T1/lmr/m/n/10.95 train-ing in-s
+tances[cite:
  []
 
-[2{E:/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}{E:/MiKTeX/fonts/enc/dvips/lm/lm-mat
-hex.enc}] [3] [4] [5] [6] [7]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
-62.
+[4]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
+09.
  (E:\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1085,56 +1076,57 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+ [5]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 506.
+(Font)              <9> on input line 357.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 506.
- [8] [9]
-[10] [11] [12]
-Overfull \hbox (2.88132pt too wide) in paragraph at lines 844--845
-\T1/lmr/m/n/10.95 Table [][]9[][] pro-vides a com-pre-hen-sive systems-level en
--gi-neer-ing com-par-i-son of the in-ves-ti-gated pipelines,
- []
-
-[13] [14]
-<demo_screenshot.png, id=455, 1027.84pt x 596.2275pt>
+(Font)              <5> on input line 357.
+ [6] [7] [8] [9] [10] [11]
+<demo_screenshot.png, id=296, 1154.51324pt x 539.01375pt>
 File: demo_screenshot.png Graphic file (type png)
 <use demo_screenshot.png>
-Package pdftex.def Info: demo_screenshot.png  used on input line 935.
-(pdftex.def)             Requested size: 408.78984pt x 237.13121pt.
- [15 <./demo_screenshot.png>] [16] [17] [18] (report.aux)
+Package pdftex.def Info: demo_screenshot.png  used on input line 806.
+(pdftex.def)             Requested size: 371.43698pt x 173.40907pt.
+ [12]
+[13 <./demo_screenshot.png>]
+Overfull \hbox (0.67136pt too wide) in paragraph at lines 828--829
+[]\T1/lmr/bx/n/10.95 Document-to-Vector Com-pres-sion: \T1/lmr/m/n/10.95 Mean a
+nd TF-IDF-weighted Word2Vec/GloVe pool-
+ []
+
+[14] [15] (report.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: BCAE17C2F59D96C58D95D7A63B606701;12949.
+(rerunfilecheck)             Checksum: 5FECA387414A157E5861D9BBC53D4F4B;9473.
  ) 
 Here is how much of TeX's memory you used:
- 38853 strings out of 467871
- 857060 string characters out of 5435220
- 1428321 words of memory out of 5000000
- 66938 multiletter control sequences out of 15000+600000
- 724443 words of font info for 109 fonts, out of 8000000 for 9000
+ 38765 strings out of 467871
+ 855806 string characters out of 5435220
+ 1417280 words of memory out of 5000000
+ 66916 multiletter control sequences out of 15000+600000
+ 725677 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,14n,94p,1005b,911s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<E:/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmmib9.pfb><E:/MiKTeX/fonts/ty
-pe1/public/lm/lmbx10.pfb><E:/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><E:/MiKTeX
-/fonts/type1/public/lm/lmbx9.pfb><E:/MiKTeX/fonts/type1/public/lm/lmbxi10.pfb><
-E:/MiKTeX/fonts/type1/public/lm/lmex10.pfb><E:/MiKTeX/fonts/type1/public/lm/lmm
-i10.pfb><E:/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><E:/MiKTeX/fonts/type1/publi
-c/lm/lmmi8.pfb><E:/MiKTeX/fonts/type1/public/lm/lmmi9.pfb><E:/MiKTeX/fonts/type
-1/public/lm/lmr10.pfb><E:/MiKTeX/fonts/type1/public/lm/lmr12.pfb><E:/MiKTeX/fon
-ts/type1/public/lm/lmr6.pfb><E:/MiKTeX/fonts/type1/public/lm/lmr8.pfb><E:/MiKTe
-X/fonts/type1/public/lm/lmr9.pfb><E:/MiKTeX/fonts/type1/public/lm/lmri10.pfb><E
-:/MiKTeX/fonts/type1/public/lm/lmri9.pfb><E:/MiKTeX/fonts/type1/public/lm/lmro9
-.pfb><E:/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><E:/MiKTeX/fonts/type1/public/
-lm/lmsy6.pfb><E:/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><E:/MiKTeX/fonts/type1/
-public/lm/lmsy9.pfb><E:/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><E:/MiKTeX/font
-s/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (21 pages, 747822 bytes).
+ 84i,14n,94p,1027b,906s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<E:/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><E:/MiKTeX/fonts/type1/public/lm/
+lmbx12.pfb><E:/MiKTeX/fonts/type1/public/lm/lmbx8.pfb><E:/MiKTeX/fonts/type1/pu
+blic/lm/lmbx9.pfb><E:/MiKTeX/fonts/type1/public/lm/lmbxi10.pfb><E:/MiKTeX/fonts
+/type1/public/lm/lmex10.pfb><E:/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><E:/MiK
+TeX/fonts/type1/public/lm/lmmi6.pfb><E:/MiKTeX/fonts/type1/public/lm/lmmi8.pfb>
+<E:/MiKTeX/fonts/type1/public/lm/lmmi9.pfb><E:/MiKTeX/fonts/type1/public/lm/lmr
+10.pfb><E:/MiKTeX/fonts/type1/public/lm/lmr12.pfb><E:/MiKTeX/fonts/type1/public
+/lm/lmr6.pfb><E:/MiKTeX/fonts/type1/public/lm/lmr8.pfb><E:/MiKTeX/fonts/type1/p
+ublic/lm/lmr9.pfb><E:/MiKTeX/fonts/type1/public/lm/lmri10.pfb><E:/MiKTeX/fonts/
+type1/public/lm/lmri8.pfb><E:/MiKTeX/fonts/type1/public/lm/lmri9.pfb><E:/MiKTeX
+/fonts/type1/public/lm/lmsy10.pfb><E:/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><E
+:/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><E:/MiKTeX/fonts/type1/public/lm/lmsy9
+.pfb><E:/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><E:/MiKTeX/fonts/type1/public/
+amsfonts/symbols/msbm10.pfb>
+Output written on report.pdf (16 pages, 652962 bytes).
 PDF statistics:
- 650 PDF objects out of 1000 (max. 8388607)
- 157 named destinations out of 1000 (max. 500000)
- 18810 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 464 PDF objects out of 1000 (max. 8388607)
+ 100 named destinations out of 1000 (max. 500000)
+ 18754 words of extra memory for PDF output out of 20736 (max. 10000000)
 
